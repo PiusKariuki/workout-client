@@ -1,5 +1,6 @@
 <script setup>
 import Navbar from "../components/navs/Navbar.vue";
+import TabBar from "@/shared/components/navs/TabBar.vue";
 
 
 
@@ -9,5 +10,6 @@ import Navbar from "../components/navs/Navbar.vue";
   <div class="flex flex-col w-full py-4 px-4 max-w-[1800px] mx-auto">
     <navbar />
     <router-view />
+    <tab-bar />
   </div>
 </template>
