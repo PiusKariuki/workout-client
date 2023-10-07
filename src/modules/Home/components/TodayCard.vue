@@ -3,11 +3,11 @@
 </script>
 
 <template>
-  <div class="flex flex-col rounded-xl border-[1px] border-slate-200 shadow-xl px-4 py-4 gap-12">
+  <div class="flex flex-col rounded-xl border-[1px] border-slate-200 shadow-xl px-4 py-4 gap-12 bg-secondary">
     <div class="flex justify-between">
       <div class="flex flex-col gap-6">
         <p class="font-semibold">Today's <br> Activities</p>
-        <p class="">Push Day</p>
+        <div class="my-badge">Push Day</div>
       </div>
       <div class="radial-progress" style="--value:70; --size:6rem; --thickness: 2px;">70%</div>
     </div>
