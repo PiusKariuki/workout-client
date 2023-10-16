@@ -34,8 +34,8 @@ const categories = [
       <maz-input label="Reps" v-model="state.reps" type="Number"/>
       <maz-input label="Seconds of rest" v-model="state.rest" type="Number"/>
       <div class="flex justify-center gap-12  mt-8">
-        <fa-icon icon="fa-solid fa-circle-chevron-left" class="w-6 h-6 text-berry" />
-        <fa-icon icon="fa-solid fa-circle-chevron-right" class="w-6 h-6 text-berry" />
+        <fa-icon icon="fa-solid fa-circle-chevron-left" class="w-6 h-6 text-cta" />
+        <fa-icon icon="fa-solid fa-circle-chevron-right" class="w-6 h-6 text-cta" />
       </div>
     </div>
 
