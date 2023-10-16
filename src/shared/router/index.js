@@ -10,6 +10,11 @@ export const routes = [
                 path: "",
                 name: "home",
                 component: () => import("@/modules/Home/views/Home.vue")
+            },
+            {
+                path: "new",
+                name: "new-workout",
+                component: () => import("@/modules/NewWorkout/views/NewWokout.vue")
             }
         ]
     }

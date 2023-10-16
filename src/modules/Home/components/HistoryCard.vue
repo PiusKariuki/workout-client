@@ -13,7 +13,7 @@
         src="https://images.pexels.com/photos/7289371/pexels-photo-7289371.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
     <p class="font-semibold">9/10/2023</p>
     <div class="flex items-center gap-2 font-semibold">
-      <fa-icon icon="fa-regular fa-clock" class="w-4" />
+      <fa-icon icon="fa-solid fa-clock" class="w-4" />
       <p class="">120 minutes</p>
     </div>
   </div>

@@ -8,11 +8,8 @@ export default {
     extend: {
       colors: {
         "primary": "#1F1F1F",
-        "light-secondary": "#F2F9DE70",
-        "secondary": "#F2F9DE",
-        "cta": "#FA6A2D",
-        "jungle":"#B3CB6D",
-        "berry": "#5A80E2"
+        "secondary": "#FFFFFF",
+        "cta": "#6F00FF",
       },
       fontFamily: {
         rubik: ['"Rubik']
