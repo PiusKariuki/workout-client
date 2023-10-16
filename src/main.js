@@ -20,6 +20,7 @@ import MazInput from 'maz-ui/components/MazInput'
 import MazSpinner from 'maz-ui/components/MazSpinner'
 import MazPicker from 'maz-ui/components/MazPicker'
 import MazSelect from 'maz-ui/components/MazSelect'
+import pinia from "@/shared/store/index.js";
 
 
 library.add(
@@ -38,6 +39,7 @@ library.add(
 
 createApp(App)
     .use(router)
+    .use(pinia)
     .component('fa-icon', FontAwesomeIcon)
     .component('MazInput', MazInput)
     .component('Picker', MazPicker)
