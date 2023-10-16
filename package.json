@@ -14,8 +14,10 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/vue-fontawesome": "^3.0.3",
+    "axios": "^1.5.1",
     "dayjs": "^1.11.10",
     "maz-ui": "^3.17.0",
+    "sweetalert2": "^11.7.32",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },

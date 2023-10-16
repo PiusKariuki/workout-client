@@ -12,7 +12,7 @@ export default {
         "cta": "#6050DC",
       },
       fontFamily: {
-        rubik: ['"Rubik']
+        rubik: ['"Rubik"']
       }
     },
   },
