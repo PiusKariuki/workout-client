@@ -9,7 +9,7 @@ export default {
       colors: {
         "primary": "#1F1F1F",
         "secondary": "#FFFFFF",
-        "cta": "#6F00FF",
+        "cta": "#6050DC",
       },
       fontFamily: {
         rubik: ['"Rubik']
