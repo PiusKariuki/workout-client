@@ -27,7 +27,7 @@ const links = [
 
 <template>
   <div
-      class="flex items-center justify-between w-full fixed lg:hidden inset-x-0 bottom-0  py-8 px-4 border-t-[1px] z-20">
+      class="flex items-center justify-between w-full  lg:hidden inset-x-0 bottom-0  py-8 px-4 border-t-[1px] z-20">
     <router-link
         v-for="item in links"
         :key="item.link"

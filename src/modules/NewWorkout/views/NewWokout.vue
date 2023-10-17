@@ -1,12 +1,11 @@
 <script setup>
-import {onMounted, reactive, ref} from 'vue'
-import {getTodaysDate} from "@/modules/NewWorkout/helpers/getTodaysDate.js";
+import {onMounted, reactive} from 'vue'
 import {useFetch} from "@/shared/composables/Fetch.js";
 import Swal from "sweetalert2";
+import {useNewWorkoutStore} from "@/shared/store/newWorkoutStore.js";
 
 const state = reactive({
   category: "",
-  sets: null,
   categories: [],
   loading: false,
   currentMovementName: "",
@@ -14,10 +13,12 @@ const state = reactive({
   currentSets: null,
   currentReps: null,
   currentSecondsOfRest: "",
-  isMovementListOpen: false
+  isMovementListOpen: false,
+  currentMovementIndex: 0,
 })
 
-const dateValue = ref("")
+const newWorkoutStore = useNewWorkoutStore()
+
 
 /**
  * Get movement by name query param
@@ -60,26 +61,31 @@ const getCategories = async () => {
       text: error.message
     })
   else
-    state.categories = data.value.map(item => ({...item, label: item.title, value: item.title}))
+    state.categories = data.value.map(item => ({...item, label: item.title, value: item.id}))
 
   state.loading = false
 }
 
+/**
+ * Handler for + icon. creates an empty movement in store
+ */
+const startNewMovement = () => {
+  newWorkoutStore.appendMovement({})
+  state.currentMovementIndex = newWorkoutStore.movements.length - 1
+}
 
-const saveWorkout = async (name) => {
-  state.loading = true
+/**
+ * Left chevron click handler
+ */
+const previousMovement = () => {
+  state.currentMovementIndex = state.currentMovementIndex === 0 ? 0 : state.currentMovementIndex - 1
+}
 
-  const {data, error} = await useFetch(`/movement?name=${name}`)
-
-  if (error.message)
-    await Swal.fire({
-      icon: "error",
-      text: error.message
-    })
-
-  state.categories = data
-
-  state.loading = false
+/**
+ * Right chevron click handler
+ */
+const nextMovement = () => {
+  state.currentMovementIndex = state.currentMovementIndex + 1
 }
 
 
@@ -88,14 +94,40 @@ const saveWorkout = async (name) => {
  * @param movementObject
  */
 const handleMovementClick = (movementObject) => {
-  state.currentMovementId = movementObject.id
-  state.currentMovementName = movementObject.name
+  // pinia action that adds name and id of the movement object
+  newWorkoutStore.addMovementNameAndID({
+    name: movementObject.name,
+    id: movementObject.id,
+    index: state.currentMovementIndex
+  })
+  // hide the data list
   state.isMovementListOpen = false
+}
+
+const saveWorkout = async (evt) => {
+  evt.preventDefault()
+  state.loading = true
+  console.log(newWorkoutStore.getPostObject)
+  const {data, error} = await useFetch(`/workouts`, {method: 'POST', data: newWorkoutStore.getPostObject})
+
+  if (error.message)
+    await Swal.fire({
+      icon: "error",
+      text: error.message
+    })
+  if (data.value) {
+    Swal.fire({
+      icon: "success"
+    }).then(() => {
+      newWorkoutStore.$reset()
+    })
+  }
+
+  state.loading = false
 }
 
 
 onMounted(() => {
-  dateValue.value = getTodaysDate()
   getCategories()
 })
 
@@ -103,16 +135,25 @@ onMounted(() => {
 </script>
 
 <template>
-  <form class="grid md:grid-cols-2 py-8 gap-8">
+  <form autocomplete="off" class="grid md:grid-cols-2 py-8 gap-8" @submit="saveWorkout">
     <p class="text-2xl md:col-span-2">New workout</p>
-    <picker v-model="dateValue" label="Date"/>
-    <maz-select v-model="state.category" :options="state.categories" label="Category"/>
+    <picker v-model="newWorkoutStore.date" label="Date" required/>
+    <maz-select v-model="newWorkoutStore.categoryId" :options="state.categories" label="Category" required/>
     <div class="flex flex-col gap-4">
-      <p class="text-lg">Movements</p>
-      <div class="flex flex-col relative">
+      <div class="flex justify-between items-center">
+        <p class="text-lg">Movements</p>
+        <button
+            class="outline-btn"
+            type="button"
+            @click="newWorkoutStore.removeMovement(state.currentMovementIndex)">
+          Cancel
+        </button>
+      </div>
+      <form class="flex flex-col relative gap-4">
         <maz-input
             id="movement"
-            v-model="state.currentMovementName"
+            v-model="newWorkoutStore.movements[state.currentMovementIndex].name"
+            autocomplete="new-password"
             label="Name"
             list="movement"
             placeholder="Start typing"
@@ -131,16 +172,49 @@ onMounted(() => {
             {{ move.name }}
           </option>
         </datalist>
-      </div>
 
-      <maz-input v-model="state.sets" label="Sets" type="Number"/>
-      <maz-input v-model="state.reps" label="Reps" type="Number"/>
-      <maz-input v-model="state.rest" label="Seconds of rest" type="Number"/>
-      <div class="flex justify-center gap-12  mt-8">
-        <fa-icon class="w-6 h-6 text-cta" icon="fa-solid fa-circle-chevron-left"/>
-        <fa-icon class="w-6 h-6 text-cta" icon="fa-solid fa-circle-chevron-right"/>
-      </div>
+        <maz-input
+            v-model="newWorkoutStore.movements[state.currentMovementIndex].sets"
+            label="Sets"
+            required
+            type="Number"/>
+        <maz-input
+            v-model="newWorkoutStore.movements[state.currentMovementIndex].reps"
+            label="Reps"
+            required
+            type="Number"/>
+        <maz-input
+            v-model="newWorkoutStore.movements[state.currentMovementIndex].secondsOfRest"
+            label="Seconds of rest"
+            required
+            type="Number"/>
+
+        <div class="flex justify-center gap-12  mt-8">
+          <fa-icon
+              v-if="state.currentMovementIndex >0"
+              class="w-6 h-6 text-cta"
+              icon="fa-solid fa-circle-chevron-left"
+              @click="previousMovement"
+          />
+          <fa-icon
+              v-if="state.currentMovementIndex === newWorkoutStore.movements.length-1"
+              class="w-6 h-6 text-cta"
+              icon="fa-solid fa-circle-plus"
+              @click="startNewMovement"
+          />
+          <fa-icon
+              v-else
+              class="w-6 h-6 text-cta"
+              icon="fa-solid fa-circle-chevron-right"
+              @click="nextMovement"
+          />
+        </div>
+      </form>
+
+
     </div>
+    <spinner v-if="state.loading" class="place-self-center text-cta" color="cta"/>
+    <button v-else class="primary-btn place-self-center">save changes</button>
 
   </form>
 </template>
