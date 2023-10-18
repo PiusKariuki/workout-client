@@ -14,7 +14,7 @@ export const routes = [
             {
                 path: "new",
                 name: "new-workout",
-                component: () => import("@/modules/NewWorkout/views/NewWokout.vue")
+                component: () => import("@/modules/Workout/views/NewWorkout.vue")
             }
         ]
     }

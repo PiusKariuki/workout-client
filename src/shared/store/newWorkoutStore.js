@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
-import {getTodaysDate} from "@/modules/NewWorkout/helpers/getTodaysDate.js";
+import {getTodaysDate} from "@/modules/Workout/helpers/getTodaysDate.js";
+
 
 
 export const useNewWorkoutStore = defineStore('new-workout', {
