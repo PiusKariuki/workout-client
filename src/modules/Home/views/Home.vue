@@ -1,7 +1,7 @@
 <script setup>
 
 import TodayCard from "@/modules/Home/components/TodayCard.vue";
-import History from "@/modules/Home/components/History.vue";
+import History from "@/modules/Home/components/SavedWokouts.vue";
 </script>
 
 <template>

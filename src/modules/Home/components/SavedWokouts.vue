@@ -1,6 +1,6 @@
 <script setup>
 
-import HistoryCard from "@/modules/Home/components/HistoryCard.vue";
+import HistoryCard from "@/modules/Home/components/WorkoutsCard.vue";
 import {useFetch} from "@/shared/composables/Fetch.js";
 import Swal from "sweetalert2";
 import {onMounted, reactive} from "vue";
@@ -40,7 +40,7 @@ onMounted(()=>{
 <template>
   <div class="flex flex-col p-4 w-full">
     <div class="flex items-center justify-between">
-      <p class="text-lg font-semibold">History</p>
+      <p class="text-lg font-semibold">Saved workouts</p>
       <p class="text-cta font-semibold">See All</p>
     </div>
     <spinner v-if="state.loading" class="self-center text-cta" color="cta"/>
