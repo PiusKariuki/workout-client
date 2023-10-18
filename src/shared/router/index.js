@@ -15,7 +15,13 @@ export const routes = [
                 path: "new",
                 name: "new-workout",
                 component: () => import("@/modules/Workout/views/NewWorkout.vue")
-            }
+            },
+            {
+                path: "workouts/:workoutId",
+                name: "workout-details",
+                component: () => import("@/modules/Workout/views/WorkoutDetails.vue")
+            },
+
         ]
     }
 ]

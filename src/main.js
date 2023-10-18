@@ -13,13 +13,14 @@ import {
     faFire,
     faHouse,
     faMagnifyingGlass,
-    faClock
+    faClock, faDumbbell, faHashtag
 } from "@fortawesome/free-solid-svg-icons";
-import {faBell, faCalendarDays, faCircleUser} from "@fortawesome/free-regular-svg-icons";
+import {faBell, faCalendarDays, faCircleUser, faSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";
 import MazInput from 'maz-ui/components/MazInput'
 import MazSpinner from 'maz-ui/components/MazSpinner'
 import MazPicker from 'maz-ui/components/MazPicker'
 import MazSelect from 'maz-ui/components/MazSelect'
+import MazCheckbox from 'maz-ui/components/MazCheckbox'
 import pinia from "@/shared/store/index.js";
 
 
@@ -34,7 +35,11 @@ library.add(
     faChartLine,
     faCircleChevronRight,
     faCircleChevronLeft,
-    faFire
+    faFire,
+    faDumbbell,
+    faHashtag,
+    faSquare,
+    faSquareCheck,
 )
 
 createApp(App)
@@ -44,5 +49,6 @@ createApp(App)
     .component('MazInput', MazInput)
     .component('Picker', MazPicker)
     .component('MazSelect', MazSelect)
+    .component('MazCheck', MazCheckbox)
     .component('Spinner', MazSpinner)
     .mount('#app')

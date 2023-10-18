@@ -3,6 +3,9 @@
 import {onMounted, reactive} from "vue";
 import {useFetch} from "@/shared/composables/Fetch.js";
 import Swal from "sweetalert2";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
 
 const state = reactive({
   data: null,
@@ -31,7 +34,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary">
+  <div
+      @click="router.push(`/workouts/${state.data?.id}`)"
+      class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary">
     <span v-if="state.loading" class="loading loading-ring loading-md self-center text-cta"></span>
     <div class="flex justify-between items-center">
       <div class="flex flex-col gap-6">
