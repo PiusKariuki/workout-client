@@ -19,7 +19,7 @@ export const useNewWorkoutStore = defineStore('new-workout', {
     getters: {
         getPostObject: state => {
             const verifiedWorkouts = state.movements.filter(item => item.movementId && item.name && item.sets && item.reps)
-            const formattedWorkouts = verifiedWorkouts.map((item, index) => ({
+            const formattedWorkouts = verifiedWorkouts?.map((item, index) => ({
                 movement_id: item.movementId,
                 position: index + 1,
                 sets: item.sets,

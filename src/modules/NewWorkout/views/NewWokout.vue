@@ -8,11 +8,6 @@ const state = reactive({
   category: "",
   categories: [],
   loading: false,
-  currentMovementName: "",
-  currentMovementId: "",
-  currentSets: null,
-  currentReps: null,
-  currentSecondsOfRest: "",
   isMovementListOpen: false,
   currentMovementIndex: 0,
 })
@@ -94,26 +89,50 @@ const nextMovement = () => {
  * @param movementObject
  */
 const handleMovementClick = (movementObject) => {
-  // pinia action that adds name and id of the movement object
-  newWorkoutStore.addMovementNameAndID({
-    name: movementObject.name,
-    id: movementObject.id,
-    index: state.currentMovementIndex
-  })
+  const found = newWorkoutStore.movements.findIndex(item => item.movementId == movementObject.id)
+  if (found > -1) {
+    Swal.fire({
+      icon: "error",
+      text: `The ${name} exercise has already been added`
+    }).then(()=>{
+      newWorkoutStore.removeMovement(state.currentMovementIndex)
+    })
+  } else {
+    // pinia action that adds name and id of the movement object
+    newWorkoutStore.addMovementNameAndID({
+      name: movementObject.name,
+      id: movementObject.id,
+      index: state.currentMovementIndex
+    })
+  }
+
+
   // hide the data list
   state.isMovementListOpen = false
 }
 
+/**
+ * Cancel button handler
+ */
+const handleCancel = () =>{
+  newWorkoutStore.removeMovement(state.currentMovementIndex)
+  state.currentMovementIndex = state.currentMovementIndex === 0 ? 0 : state.currentMovementIndex - 1
+}
+
+/**
+ * Submit handler
+ * @param evt
+ * @returns {Promise<void>}
+ */
 const saveWorkout = async (evt) => {
   evt.preventDefault()
   state.loading = true
-  console.log(newWorkoutStore.getPostObject)
-  const {data, error} = await useFetch(`/workouts`, {method: 'POST', data: newWorkoutStore.getPostObject})
+  const {data, responseError} = await useFetch(`/workouts`, {method: 'POST', data: newWorkoutStore.getPostObject})
 
-  if (error.message)
+  if (responseError.value)
     await Swal.fire({
       icon: "error",
-      text: error.message
+      text: responseError.value.detail
     })
   if (data.value) {
     Swal.fire({
@@ -145,14 +164,14 @@ onMounted(() => {
         <button
             class="outline-btn"
             type="button"
-            @click="newWorkoutStore.removeMovement(state.currentMovementIndex)">
+            @click="handleCancel">
           Cancel
         </button>
       </div>
       <form class="flex flex-col relative gap-4">
         <maz-input
             id="movement"
-            v-model="newWorkoutStore.movements[state.currentMovementIndex].name"
+            :value="newWorkoutStore?.movements[state.currentMovementIndex].name"
             autocomplete="new-password"
             label="Name"
             list="movement"
