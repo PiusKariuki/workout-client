@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
   <div
-      @click="router.push(`/workouts/${state.data?.id}`)"
+      @click="state.data.id && router.push(`/workouts/${state.data?.id}`)"
       class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary">
     <span v-if="state.loading" class="loading loading-ring loading-md self-center text-cta"></span>
     <div class="flex justify-between items-center">
