@@ -18,7 +18,7 @@ const state = reactive({
 const getHistory = async () => {
   state.loading = true
 
-  const {data, responseError} = await useFetch('/workouts')
+  const {data, responseError} = await useFetch('/workouts?limit=20&offset=0')
 
   if (responseError.value) {
     Swal.fire({
