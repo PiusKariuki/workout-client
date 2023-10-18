@@ -46,7 +46,7 @@ onMounted(() => {
         <div class="my-badge">{{ getDateString(state.data.date) }}</div>
       </div>
       <!--*************************************************************-->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-h-[80vh] overflow-y-scroll py-4">
         <movement-card v-for="move in state.data.movement_links" :key="move.id" :move="move"/>
       </div>
 
