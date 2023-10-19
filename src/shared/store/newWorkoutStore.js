@@ -2,7 +2,6 @@ import {defineStore} from "pinia";
 import {getTodaysDate} from "@/modules/Workout/helpers/getTodaysDate.js";
 
 
-
 export const useNewWorkoutStore = defineStore('new-workout', {
     state: () => ({
         date: getTodaysDate(),
@@ -47,7 +46,7 @@ export const useNewWorkoutStore = defineStore('new-workout', {
          * Remove a movement object
          * @param index
          */
-        removeMovement(index) {
+        removeMovementObject(index) {
             if (this.movements.length > 1)
                 this.movements = this.movements.filter((item, idx) => idx !== index)
             else this.movements = [{
@@ -67,6 +66,13 @@ export const useNewWorkoutStore = defineStore('new-workout', {
         addMovementNameAndID({name, id, index}) {
             this.movements = this.movements.map((item, idx) => idx === index ? ({name: name, movementId: id}) : item)
         },
+        removeMovement(index) {
+            this.movements = this.movements.map((item, idx) => idx === index ? ({
+                ...item,
+                name: "",
+                movementId: ""
+            }) : item)
+        }
     },
     persist: true
 })

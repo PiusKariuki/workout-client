@@ -1,8 +1,11 @@
 <script setup>
-import {onMounted, reactive} from 'vue'
-import {useFetch} from "@/shared/composables/Fetch.js";
+import {onMounted, reactive, watch} from 'vue'
 import Swal from "sweetalert2";
 import {useNewWorkoutStore} from "@/shared/store/newWorkoutStore.js";
+import {useAxios} from "@/shared/composables/axiosComposable.js";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
 
 const state = reactive({
   category: "",
@@ -10,56 +13,71 @@ const state = reactive({
   loading: false,
   isMovementListOpen: false,
   currentMovementIndex: 0,
+  movementString: ""
 })
 
 const newWorkoutStore = useNewWorkoutStore()
 
+const {data: categoryData, loading: categoryLoading, error: categoryError, makeRequest: getCategories} = useAxios()
 
+watch(categoryError, value => {
+  if (value)
+    Swal.fire({
+      icon: 'error',
+      text: value?.response?.data?.detail
+    })
+})
+
+watch(categoryData, value => {
+  if (value)
+    state.categories = value.map(item => ({...item, label: item.title, value: item.id}))
+})
+
+
+onMounted(() => {
+  getCategories({
+    url: "category",
+    method: "GET"
+  })
+})
+
+
+const {data: movementData, error: movementError, loading: movementLoading, makeRequest: getMovements} = useAxios()
+
+
+watch(movementData, value => {
+  if (value)
+    state.isMovementListOpen = true
+})
+
+
+const {
+  data: saveWorkoutData,
+  loading: saveWorkoutLoading,
+  error: saveWorkoutError,
+  makeRequest: saveWorkoutRequest
+} = useAxios()
+
+
+watch(saveWorkoutData, value => {
+  newWorkoutStore.$reset()
+  window.location.reload()
+})
 /**
- * Get movement by name query param
+ * Submit handler
  * @param evt
  * @returns {Promise<void>}
  */
-const getMovement = async (evt) => {
-  // init loading
-  state.loading = true
-  // fetch movements if more than 2 letters are typed
-  if (evt.target.value.length > 2) {
-    const {data, error} = await useFetch(`/movement/${evt.target.value}`)
+const saveWorkout = async (evt) => {
+  evt.preventDefault()
+  await saveWorkoutRequest({
+    url: "workouts",
+    method: "POST",
+    data: newWorkoutStore.getPostObject
+  })
 
-    // if an error occurs
-    if (error.message) {
-      await Swal.fire({
-        icon: "error",
-        text: error.message
-      })
-    } else {   // If request is successful
-      state.movements = data
-      state.isMovementListOpen = true
-    }
-  }
-  // close the loading state
-  state.loading = false
 }
 
-/**
- * Get all categories
- * @returns {Promise<void>}
- */
-const getCategories = async () => {
-  state.loading = true
-  const {data, error} = await useFetch(`/category`)
-
-  if (error.message)
-    await Swal.fire({
-      icon: "error",
-      text: error.message
-    })
-  else
-    state.categories = data.value.map(item => ({...item, label: item.title, value: item.id}))
-
-  state.loading = false
-}
 
 /**
  * Handler for + icon. creates an empty movement in store
@@ -94,8 +112,8 @@ const handleMovementClick = (movementObject) => {
     Swal.fire({
       icon: "error",
       text: `The ${name} exercise has already been added`
-    }).then(()=>{
-      newWorkoutStore.removeMovement(state.currentMovementIndex)
+    }).then(() => {
+      newWorkoutStore.removeMovementObject(state.currentMovementIndex)
     })
   } else {
     // pinia action that adds name and id of the movement object
@@ -114,41 +132,13 @@ const handleMovementClick = (movementObject) => {
 /**
  * Cancel button handler
  */
-const handleCancel = () =>{
-  newWorkoutStore.removeMovement(state.currentMovementIndex)
+const handleCancel = () => {
+  state.movementString = ""
+  newWorkoutStore.removeMovementObject(state.currentMovementIndex)
   state.currentMovementIndex = state.currentMovementIndex === 0 ? 0 : state.currentMovementIndex - 1
 }
 
-/**
- * Submit handler
- * @param evt
- * @returns {Promise<void>}
- */
-const saveWorkout = async (evt) => {
-  evt.preventDefault()
-  state.loading = true
-  const {data, responseError} = await useFetch(`/workouts`, {method: 'POST', data: newWorkoutStore.getPostObject})
 
-  if (responseError.value)
-    await Swal.fire({
-      icon: "error",
-      text: responseError.value.detail
-    })
-  if (data.value) {
-    Swal.fire({
-      icon: "success"
-    }).then(() => {
-      newWorkoutStore.$reset()
-    })
-  }
-
-  state.loading = false
-}
-
-
-onMounted(() => {
-  getCategories()
-})
 
 
 </script>
@@ -169,28 +159,37 @@ onMounted(() => {
         </button>
       </div>
       <form class="flex flex-col relative gap-4">
-        <maz-input
-            id="movement"
-            :value="newWorkoutStore?.movements[state.currentMovementIndex].name"
-            autocomplete="new-password"
-            label="Name"
-            list="movement"
-            placeholder="Start typing"
-            @keyup="getMovement"
-        />
-        <datalist
-            v-if="state.isMovementListOpen"
-            id="movement"
-            class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
-        >
-          <option
-              v-for="move in state.movements"
-              :key="move.name"
-              :value="move.name"
-              @click="handleMovementClick(move)">
-            {{ move.name }}
-          </option>
-        </datalist>
+        <div
+            v-if="newWorkoutStore?.movements[state.currentMovementIndex].movementId"
+            class="my-badge capitalize relative">{{newWorkoutStore?.movements[state.currentMovementIndex].name}}
+
+        </div>
+        <div v-else class="flex flex-col relative w-full">
+          <maz-input
+
+              v-model="state.movementString"
+              autocomplete="new-password"
+              list="movement"
+              @keyup="getMovements({url: `/movement/${$event.target.value}`})"
+              id="movement"
+              placeholder="Movement"
+              type="text"
+          />
+          <datalist
+              v-if="state.isMovementListOpen"
+              id="movement"
+              class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
+          >
+            <option
+                v-for="move in movementData"
+                :key="move.name"
+                :value="move.name"
+                @click="handleMovementClick(move)">
+              {{ move.name }}
+            </option>
+          </datalist>
+        </div>
+
 
         <maz-input
             v-model="newWorkoutStore.movements[state.currentMovementIndex].sets"
@@ -239,5 +238,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
+#movement{
+  @apply border-[2px] rounded-lg border-slate-300 px-4 py-2 placeholder:text-primary;
+}
 </style>
