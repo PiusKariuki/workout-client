@@ -22,7 +22,7 @@ onMounted(() => {
 <template>
   <div
       class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary"
-      @click="data.id && router.push(`/workouts/${data?.id}`)">
+      @click="data?.id && router.push(`/workouts/${data?.id}`)">
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
     <div class="flex justify-between items-center">
       <div class="flex flex-col gap-6">
