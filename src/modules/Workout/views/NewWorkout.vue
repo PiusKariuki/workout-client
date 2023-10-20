@@ -166,7 +166,6 @@ const handleCancel = () => {
         </div>
         <div v-else class="flex flex-col relative w-full">
           <maz-input
-
               v-model="state.movementString"
               autocomplete="new-password"
               list="movement"

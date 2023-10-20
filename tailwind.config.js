@@ -10,6 +10,8 @@ export default {
         "primary": "#1F1F1F",
         "secondary": "#FFFFFF",
         "cta": "#6050DC",
+        "danger": "#ED2939",
+        "success": "#0B6623"
       },
       fontFamily: {
         rubik: ['"Rubik"']
