@@ -21,7 +21,7 @@ onMounted(() => {
 
 <template>
   <div
-      :style="{backgroundImage: `url(${data.category.banner})`}"
+      :style="{backgroundImage: `url(${data?.category?.banner})`}"
       class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary
       min-h-[200px] bg-center bg-contain "
       @click="data?.id && router.push(`/workouts/${data?.id}`)">
