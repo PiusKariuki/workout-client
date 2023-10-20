@@ -12,18 +12,22 @@ const {workoutId} = route.params
 
 const {makeRequest, data, loading, error} = useAxios()
 
-watch(error, value=>{
-  if(value)
+watch(error, value => {
+  if (value)
     Swal.fire({
       icon: "error",
       text: value.response.data.detail
     })
 })
 
-onMounted(() => {
+const getWorkouts = () => {
   makeRequest({
     url: `/workouts/${workoutId}`
   })
+}
+
+onMounted(() => {
+  getWorkouts()
 })
 
 </script>
@@ -39,7 +43,7 @@ onMounted(() => {
       </div>
       <!--*************************************************************-->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-h-[80vh] overflow-y-scroll py-4">
-        <movement-card v-for="move in data.movement_links" :key="move.id" :move="move"/>
+        <movement-card v-for="move in data.movement_links" :key="move.id" :move="move" @refetch="getWorkouts"/>
       </div>
 
 
