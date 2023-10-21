@@ -93,19 +93,22 @@ watch(categoriesData, value => {
 const filterWorkouts = () => {
   switch (status.value) {
     case "incomplete":
-      movements.value = workoutData?.value?.movement_links?.filter(workout => workout?.complete === false)
+      movements.value = workoutData?.value?.movement_links
+          ?.filter(workout => workout?.complete === false)
+          .sort((a, b) => a.position - b.position)
       break;
     case "all":
-      movements.value = workoutData?.value?.movement_links;
+      movements.value = workoutData?.value?.movement_links.sort((a, b) => a.position - b.position);
       break;
     case "complete":
-      movements.value = workoutData?.value?.movement_links?.filter(workout => workout?.complete === true)
+      movements.value = workoutData?.value?.movement_links
+          ?.filter(workout => workout?.complete === true)
+          .sort((a, b) => a.position - b.position)
       break;
     default:
       break;
   }
 }
-
 
 
 /**
