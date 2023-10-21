@@ -1,21 +1,29 @@
 <script setup>
 import {getDateString} from "../../../shared/helpers/dateOps.js";
 import {useRouter} from "vue-router";
+import {percentage} from "@/shared/helpers/getCompletionPercentage.js";
 const router = useRouter()
 defineProps(['workout'])
 </script>
 
 <template>
-  <div
-      @click="router.push(`/workouts/${workout?.id}`)"
-      class="flex flex-col rounded-lg w-10/12 relative gap-2 flex-shrink-0">
-    <div class="my-badge rounded-l-none bg-secondary/80 text-cta absolute top-4 left-0 capitalize">
-      {{ workout.category?.title }}
+  <div class="flex flex-col gap-2 w-[65vw] flex-shrink-0">
+    <div
+        :style="{backgroundImage: `url(${workout?.category?.banner})`}"
+        @click="router.push(`/workouts/${workout?.id}`)"
+        class="flex flex-col rounded-lg  w-full relative gap-2  h-56 bg-center bg-cover">
+      <div
+          class="radial-progress bg-secondary text-cta font-semibold ml-auto mt-2 mr-2"
+          :style="{'--value': percentage(workout?.movement_links)}"
+          style="--value:70; --size:4rem; --thickness: 2.5px;">
+        {{percentage(workout?.movement_links)}}%
+      </div>
     </div>
-    <img
-        alt=""
-        class="w-full object-cover h-56 rounded-xl object-top"
-        :src="workout.category?.banner">
-    <p class="font-semibold">{{getDateString(workout.date)}}</p>
+    <div class="flex items-center gap-6">
+      <div class="font-semibold text-cta  capitalize">
+        {{ workout.category?.title }}
+      </div>
+      <p class="">{{getDateString(workout.date)}}</p>
+    </div>
   </div>
 </template>

@@ -3,6 +3,7 @@
 import {onMounted} from "vue";
 import {useRouter} from "vue-router";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
+import {percentage} from "../../../shared/helpers/getCompletionPercentage.js";
 
 const router = useRouter()
 
@@ -26,10 +27,16 @@ onMounted(() => {
       min-h-[200px] bg-center bg-contain "
       @click="data?.id && router.push(`/workouts/${data?.id}`)">
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
-    <div class="flex justify-between items-center">
+    <div v-if="data?.id" class="flex justify-between items-center">
       <div class="flex flex-col gap-6">
-        <p class="font-medium text-xl bg-secondary text-primary px-4 py-1 rounded-md">Today's Activities</p>
-        <div class="my-badge">{{data?.category?.title }}</div>
+        <p class="text-xl bg-secondary text-primary  px-4 py-1 rounded-md">Today's Activities</p>
+        <div class="my-badge text-cta">{{data?.category?.title }}</div>
+      </div>
+      <div
+          class="radial-progress bg-secondary/90 text-cta font-semibold "
+          :style="{'--value': percentage(data?.movement_links)}"
+          style="--value:70; --size:6rem; --thickness: 3px;">
+        {{percentage(data?.movement_links)}}%
       </div>
     </div>
 

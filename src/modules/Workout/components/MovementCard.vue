@@ -21,13 +21,19 @@ const edit = ref(false)
 const props = defineProps(['move'])
 const emits = defineEmits(['refetch'])
 
-
-onMounted(() => {
+/**
+ * Initialize state ref according to the props passed
+ */
+const initState = () => {
   isComplete.value = props.move.complete
   sets.value = props.move.sets
   reps.value = props.move.reps
   position.value = props.move.position
   rest.value = props.move.rest_in_seconds
+}
+
+onMounted(() => {
+  initState()
 })
 
 const {loading, makeRequest: makeUpdateRequest, error: updateError} = useAxios()
@@ -60,37 +66,57 @@ const update = async () => {
 
 }
 
+/**
+ * Handler when you click the checkbox
+ */
 const toggleCheck = () => {
   isComplete.value = !isComplete.value
   update()
 }
 
 
+/**
+ * Edit click handler
+ * Sends an update request if then toggles the edit state ref to make the inputs active or active
+ * @returns {Promise<void>}
+ */
 const handleEdit = async () => {
   if (edit.value)
     await update()
-
   edit.value = !edit.value
 }
 
 const {loading: deleteLoading, makeRequest: makeDeleteRequest} = useAxios()
 
+/**
+ * Delete handler
+ * sends a delete http request to delete the workout
+ * An intermediate confirmation step is included
+ * @returns {Promise<void>}
+ */
 const handleDelete = async () => {
   Swal.fire({
     icon: "question",
     text: `Are you sure you want to delete ${props.move.movement.name}`,
     showDenyButton: true
   }).then(async (res) => {
-    if (res.isConfirmed){
+    if (res.isConfirmed) {
       await makeDeleteRequest({
         url: `movement/${workoutId}/${props.move.movement_id}`,
         method: 'DELETE'
       })
       emits('refetch')
     }
-
   })
+}
 
+/**
+ * Cancel handler for updates
+ * returns the state ref to their initial values
+ */
+const handleCancel = () => {
+  edit.value = false
+  initState()
 }
 
 
@@ -133,17 +159,23 @@ const handleDelete = async () => {
       </div>
     </div>
     <spinner v-if="loading || deleteLoading" class="self-center text-cta" color="cta"/>
-    <div v-else class="flex justify-between items-center">
+    <div v-else class="flex justify-between items-end">
       <button
-          class="outline-btn text-danger shadow-danger"
+          class="outline-btn "
           @click="handleDelete">
         Delete
       </button>
 
+
       <button
-          class="primary-btn"
+          class="primary-btn ml-auto"
           @click="handleEdit">
         {{ edit ? 'save' : 'edit' }}
+      </button>
+      <button
+          v-if="edit"
+          class="outline-btn ml-2"
+          @click="handleCancel">Cancel
       </button>
     </div>
 
