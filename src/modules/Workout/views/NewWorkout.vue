@@ -85,6 +85,7 @@ const saveWorkout = async (evt) => {
 const startNewMovement = () => {
   newWorkoutStore.appendMovement({})
   state.currentMovementIndex = newWorkoutStore.movements.length - 1
+  state.movementString = ""
 }
 
 /**
@@ -113,7 +114,8 @@ const handleMovementClick = (movementObject) => {
       icon: "error",
       text: `The ${name} exercise has already been added`
     }).then(() => {
-      newWorkoutStore.removeMovementObject(state.currentMovementIndex)
+      handleCancel()
+
     })
   } else {
     // pinia action that adds name and id of the movement object
@@ -136,9 +138,8 @@ const handleCancel = () => {
   state.movementString = ""
   newWorkoutStore.removeMovementObject(state.currentMovementIndex)
   state.currentMovementIndex = state.currentMovementIndex === 0 ? 0 : state.currentMovementIndex - 1
+  state.isMovementListOpen = false
 }
-
-
 
 
 </script>
@@ -160,19 +161,19 @@ const handleCancel = () => {
       </div>
       <form class="flex flex-col relative gap-4">
         <div
-            v-if="newWorkoutStore?.movements[state.currentMovementIndex].movementId"
-            class="my-badge capitalize relative">{{newWorkoutStore?.movements[state.currentMovementIndex].name}}
+            v-if="newWorkoutStore?.movements[state.currentMovementIndex]?.movementId"
+            class="my-badge capitalize relative">{{ newWorkoutStore?.movements[state.currentMovementIndex]?.name }}
 
         </div>
         <div v-else class="flex flex-col relative w-full">
           <maz-input
+              id="movement"
               v-model="state.movementString"
               autocomplete="new-password"
               list="movement"
-              @keyup="getMovements({url: `/movement/${$event.target.value}`})"
-              id="movement"
               placeholder="Movement"
               type="text"
+              @keyup="getMovements({url: `/movement/${$event.target.value}`})"
           />
           <datalist
               v-if="state.isMovementListOpen"
@@ -237,7 +238,7 @@ const handleCancel = () => {
 </template>
 
 <style scoped>
-#movement{
+#movement {
   @apply border-[2px] rounded-lg border-slate-300 px-4 py-2 placeholder:text-primary;
 }
 </style>
