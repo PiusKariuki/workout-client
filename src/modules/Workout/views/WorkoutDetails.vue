@@ -89,6 +89,7 @@ watch(categoriesData, value => {
 
 /**
  * Filter workouts according to status state ref
+ * Sort the workouts by position
  */
 const filterWorkouts = () => {
   switch (status.value) {

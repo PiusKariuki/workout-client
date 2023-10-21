@@ -76,10 +76,21 @@ const handleEdit = async () => {
 const {loading: deleteLoading, makeRequest: makeDeleteRequest} = useAxios()
 
 const handleDelete = async () => {
-  await makeDeleteRequest({
-    url: `movement/${workoutId}/${props.move.movement_id}`,
-    method: 'DELETE'
+  Swal.fire({
+    icon: "question",
+    text: `Are you sure you want to delete ${props.move.movement.name}`,
+    showDenyButton: true
+  }).then(async (res) => {
+    if (res.isConfirmed){
+      await makeDeleteRequest({
+        url: `movement/${workoutId}/${props.move.movement_id}`,
+        method: 'DELETE'
+      })
+      emits('refetch')
+    }
+
   })
+
 }
 
 
