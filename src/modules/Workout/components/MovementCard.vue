@@ -44,17 +44,21 @@ watch(updateError, value => {
  * Anonymous function to initialize  the config object in the update request
  * @returns {*}
  */
-const update = () => makeUpdateRequest({
-  url: `movement?workout_id=${workoutId}&movement_id=${props.move.movement_id}`,
-  method: 'PUT',
-  data: {
-    "completed": isComplete.value,
-    "sets": sets.value,
-    "reps": reps.value,
-    "position": position.value,
-    "rest_in_seconds": rest.value
-  }
-})
+const update = async () => {
+  await makeUpdateRequest({
+    url: `movement?workout_id=${workoutId}&movement_id=${props.move.movement_id}`,
+    method: 'PUT',
+    data: {
+      "completed": isComplete.value,
+      "sets": sets.value,
+      "reps": reps.value,
+      "position": position.value,
+      "rest_in_seconds": rest.value
+    }
+  })
+  await emits('refetch')
+
+}
 
 const toggleCheck = () => {
   isComplete.value = !isComplete.value
@@ -76,7 +80,6 @@ const handleDelete = async () => {
     url: `movement/${workoutId}/${props.move.movement_id}`,
     method: 'DELETE'
   })
-  emits('refetch')
 }
 
 
