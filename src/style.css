@@ -47,7 +47,7 @@ input[type="number"] {
       @apply  flex rounded-3xl px-4 py-[2px] text-sm bg-slate-200 text-primary font-medium w-fit;
     }
     .primary-btn{
-        @apply w-fit text-secondary px-4 py-2 bg-cta rounded-lg text-sm hover:rounded-xl;
+        @apply w-fit text-secondary px-4 py-2 bg-cta rounded-lg text-sm hover:rounded-xl capitalize;
     }
     .outline-btn{
         @apply w-fit text-cta px-4 py-2 bg-secondary rounded-lg text-sm hover:rounded-xl shadow-md shadow-cta

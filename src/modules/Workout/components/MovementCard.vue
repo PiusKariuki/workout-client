@@ -135,7 +135,7 @@ const handleCancel = () => {
           class="ml-auto w-5 h-5"
           @click="toggleCheck"/>
     </div>
-    <div class="flex items-cent justify-between">
+    <div class="flex  justify-between">
       <div class="flex flex-col w-fit items-center">
         <p class="my-badge">Sets</p>
         <maz-input
@@ -182,7 +182,7 @@ const handleCancel = () => {
   </div>
 </template>
 
-<style scoped>
+<style>
 .check {
   @apply border-cta ring-cta outline-cta;
 }

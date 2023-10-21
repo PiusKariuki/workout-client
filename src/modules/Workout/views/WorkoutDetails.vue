@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import MovementCard from "@/modules/Workout/components/MovementCard.vue";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
 import {statusOptions} from "@/modules/Workout/data/data.js";
+import NewWorkoutModal from "@/shared/components/dialogs/NewWorkoutModal.vue";
 
 const route = useRoute()
 const {workoutId} = route.params
@@ -17,6 +18,8 @@ const date = ref(null)
 const edit = ref(false)
 const status = ref('all')
 const movements = ref(null)
+const isModalOpen = ref(false)
+
 
 
 /**
@@ -128,14 +131,13 @@ const handleEdit = async () => {
   edit.value = !edit.value
   await getWorkouts()
   await filterWorkouts()
-
 }
 
 
 /**
  * Watch for changes on status filter
  */
-watch(status, value => {
+watch(status, () => {
   filterWorkouts()
 })
 
@@ -145,12 +147,17 @@ watch(status, value => {
  */
 onMounted(() => {
   getWorkouts()
-
   getCategories({
     url: 'category',
     method: 'GET'
   })
 })
+
+watch(isModalOpen, async()=>{
+  await getWorkouts()
+  await filterWorkouts()
+})
+
 
 </script>
 
@@ -175,10 +182,21 @@ onMounted(() => {
         </button>
       </div>
 
-      <maz-select
-          v-model="status"
-          :options="statusOptions"
-          label="Status"
+      <div class="flex items-center gap-8 w-full">
+        <maz-select
+            v-model="status"
+            :options="statusOptions"
+            class="w-full"
+            label="Status"
+        />
+        <button
+            class="primary-btn w-40 text-xs py-4"
+            @click="isModalOpen = !isModalOpen">
+          Add workout
+        </button>
+      </div>
+      <new-workout-modal
+          v-model="isModalOpen"
       />
 
       <!--*************************************************************-->

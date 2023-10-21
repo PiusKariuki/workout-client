@@ -20,6 +20,7 @@ import MazInput from 'maz-ui/components/MazInput'
 import MazSpinner from 'maz-ui/components/MazSpinner'
 import MazPicker from 'maz-ui/components/MazPicker'
 import MazSelect from 'maz-ui/components/MazSelect'
+import MazDialog from 'maz-ui/components/MazDialog'
 import MazCheckbox from 'maz-ui/components/MazCheckbox'
 import pinia from "@/shared/store/index.js";
 
@@ -51,5 +52,6 @@ createApp(App)
     .component('Picker', MazPicker)
     .component('MazSelect', MazSelect)
     .component('MazCheck', MazCheckbox)
+    .component('MazDialog', MazDialog)
     .component('Spinner', MazSpinner)
     .mount('#app')
