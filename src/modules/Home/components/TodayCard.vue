@@ -23,8 +23,9 @@ onMounted(() => {
 <template>
   <div
       :style="{backgroundImage: `url(${data?.category?.banner})`}"
+      :class="[data?.id ? 'min-h-[200px]': 'min-h-[100px]']"
       class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary
-      min-h-[200px] bg-center bg-contain "
+       bg-center bg-contain "
       @click="data?.id && router.push(`/workouts/${data?.id}`)">
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
     <div v-if="data?.id" class="flex justify-between items-center">
@@ -35,9 +36,15 @@ onMounted(() => {
       <div
           class="radial-progress bg-secondary/90 text-cta font-semibold "
           :style="{'--value': percentage(data?.movement_links)}"
-          style="--value:70; --size:6rem; --thickness: 3px;">
+          style="--value:70; --size:6rem; --thickness: 2.5px;">
         {{percentage(data?.movement_links)}}%
       </div>
+    </div>
+    <div
+        @click="router.push('/new')"
+        v-if="!loading && !data?.id"
+        class="flex self-center justify-center my-auto cursor-pointer text-cta">
+      Click here to create a workout
     </div>
 
   </div>
