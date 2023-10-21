@@ -13,9 +13,9 @@ defineProps(['workout'])
         @click="router.push(`/workouts/${workout?.id}`)"
         class="flex flex-col rounded-lg  w-full relative gap-2  h-56 bg-center bg-cover">
       <div
-          class="radial-progress bg-secondary text-cta font-semibold ml-auto mt-2 mr-2"
+          class="radial-progress bg-secondary/60 text-sm text-cta font-semibold ml-auto mt-2 mr-2"
           :style="{'--value': percentage(workout?.movement_links)}"
-          style="--value:70; --size:4rem; --thickness: 2.5px;">
+          style="--value:70; --size:3rem; --thickness: 3px;">
         {{percentage(workout?.movement_links)}}%
       </div>
     </div>

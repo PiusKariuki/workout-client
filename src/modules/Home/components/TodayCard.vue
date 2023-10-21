@@ -34,9 +34,9 @@ onMounted(() => {
         <div class="my-badge text-cta">{{data?.category?.title }}</div>
       </div>
       <div
-          class="radial-progress bg-secondary/90 text-cta font-semibold "
+          class="radial-progress bg-secondary/70 text-cta font-semibold "
           :style="{'--value': percentage(data?.movement_links)}"
-          style="--value:70; --size:6rem; --thickness: 2.5px;">
+          style="--value:70; --size:4rem; --thickness: 3px;">
         {{percentage(data?.movement_links)}}%
       </div>
     </div>
