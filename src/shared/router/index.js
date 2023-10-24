@@ -1,4 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
+import {useAuthStore} from "@/shared/store/authStore.js";
+import pinia from "@/shared/store/index.js";
+import Swal from "sweetalert2";
 
 export const routes = [
     {
@@ -34,7 +37,10 @@ export const routes = [
             {
                 path: 'login',
                 name: 'login',
-                component: () => import("@/modules/Auth/views/Login.vue")
+                component: () => import("@/modules/Auth/views/Login.vue"),
+                meta: {
+                    checkAuth: true
+                }
             }
         ]
     }
@@ -45,5 +51,19 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+
+router.beforeEach(to => {
+    const authStore = useAuthStore(pinia)
+    if (to.meta.checkAuth && authStore.access_token){
+        Swal.fire({
+            icon: "info",
+            text: "You're already logged in ✌️"
+        })
+        return {name: "home"}
+    }
+
+})
+
 
 export default router

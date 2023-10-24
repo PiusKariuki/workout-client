@@ -1,5 +1,7 @@
 import {ref} from "vue";
 import axios from "axios";
+import {useAuthStore} from "@/shared/store/authStore.js";
+import pinia from "@/shared/store/index.js";
 
 
 export const useAxios = () => {
@@ -7,13 +9,23 @@ export const useAxios = () => {
     const loading = ref(false)
     const error = ref(null)
 
+    const authStore = useAuthStore(pinia)
+
+
     const axiosInstance = axios.create({
-        baseURL: import.meta.env.VITE_BASEURL
+        baseURL: import.meta.env.VITE_BASEURL,
+
     })
 
     const makeRequest = async (config) => {
         loading.value = true
         error.value = null
+
+
+        if (authStore.access_token)
+            config['headers']= {
+                'Authorization': `${authStore.token_type} ${authStore.access_token}`
+            }
 
         try {
             const response = await axiosInstance(config)

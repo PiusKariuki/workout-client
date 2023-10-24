@@ -18,7 +18,7 @@ import {
     faFire,
     faHashtag,
     faHouse,
-    faMagnifyingGlass
+    faMagnifyingGlass, faPowerOff, faRightToBracket
 } from "@fortawesome/free-solid-svg-icons";
 import {faBell, faCalendarDays, faCircleUser, faSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";
 import MazInput from 'maz-ui/components/MazInput'
@@ -46,7 +46,9 @@ library.add(
     faHashtag,
     faSquare,
     faSquareCheck,
-    faCircleXmark
+    faCircleXmark,
+    faPowerOff,
+    faRightToBracket
 )
 
 createApp(App)

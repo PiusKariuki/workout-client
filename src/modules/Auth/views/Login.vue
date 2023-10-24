@@ -4,9 +4,12 @@ import {ref, watch} from "vue";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
 import Swal from "sweetalert2";
 import {useAuthStore} from "@/shared/store/authStore.js";
+import {useRouter} from "vue-router";
 
 const email = ref(null)
 const password = ref(null)
+const router = useRouter()
+
 
 const authStore = useAuthStore()
 
@@ -23,8 +26,10 @@ watch(data, value => {
   Swal.fire({
     icon: "success",
     text: "Login successful"
-  }).then(() => {
+  }).then(async() => {
     authStore.loadToken({access_token: value.access_token, token_type: value.token_type})
+    await router.push("/")
+    await window.location.reload()
   })
 })
 

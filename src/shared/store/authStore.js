@@ -3,8 +3,8 @@ import {defineStore} from "pinia";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
-        access_token: "",
-        token_type: ""
+        access_token: null,
+        token_type: null
     }),
     actions: {
         loadToken({access_token, token_type}) {
