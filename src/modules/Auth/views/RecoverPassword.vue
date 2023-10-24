@@ -48,6 +48,7 @@ watch(data, value => {
  * When error happens
  */
 watch(error, value => {
+  console.log('value', value)
   if (value)
     Swal.fire({
       icon: "error",

@@ -43,6 +43,14 @@ export const routes = [
                 }
             },
             {
+                path: 'register',
+                name: 'register',
+                component: () => import("@/modules/Auth/views/Register.vue"),
+                meta: {
+                    checkAuth: true
+                }
+            },
+            {
                 path: 'recover',
                 name: 'recover-password',
                 component: () => import("@/modules/Auth/views/RecoverPassword.vue"),

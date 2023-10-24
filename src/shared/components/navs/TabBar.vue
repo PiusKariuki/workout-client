@@ -1,8 +1,24 @@
 <script setup>
 import {useNavIcons} from "@/shared/composables/navIcons.js";
+import {useAuthStore} from "@/shared/store/authStore.js";
+import Swal from "sweetalert2";
 
 const {links} = useNavIcons()
+const authStore = useAuthStore()
 
+
+const handleLogout = () => {
+  Swal.fire({
+    icon: "question",
+    text: "Are you sure you want to logout?",
+    showCancelButton: true
+  }).then((res) => {
+    if (res.isConfirmed) {
+      authStore.$reset()
+      window.location.reload()
+    }
+  })
+}
 </script>
 
 <template>
@@ -13,10 +29,13 @@ const {links} = useNavIcons()
         v-if="links"
         :key="item.link"
         :to="item.link"
-        class="flex flex-col gap-2"
-        @click="item.handler  && item?.handler()">
+        class="flex flex-col gap-2">
       <fa-icon :icon="item.icon" class="text-xl"/>
     </router-link>
+    <button v-if="authStore.access_token !==null"
+            class="outline-btn"
+            @click="handleLogout">Logout
+    </button>
   </div>
 </template>
 
