@@ -5,15 +5,20 @@ import App from './App.vue'
 import router from "./shared/router/index.js";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import Vue3EasyDataTable from 'vue3-easy-data-table';
+import 'vue3-easy-data-table/dist/style.css';
 import {
     faChartLine,
     faCircleChevronLeft,
     faCircleChevronRight,
     faCirclePlus,
+    faCircleXmark,
+    faClock,
+    faDumbbell,
     faFire,
+    faHashtag,
     faHouse,
-    faMagnifyingGlass,
-    faClock, faDumbbell, faHashtag, faCircleXmark
+    faMagnifyingGlass
 } from "@fortawesome/free-solid-svg-icons";
 import {faBell, faCalendarDays, faCircleUser, faSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";
 import MazInput from 'maz-ui/components/MazInput'
@@ -54,4 +59,5 @@ createApp(App)
     .component('MazCheck', MazCheckbox)
     .component('MazDialog', MazDialog)
     .component('Spinner', MazSpinner)
+    .component('DataTable', Vue3EasyDataTable)
     .mount('#app')

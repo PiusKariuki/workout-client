@@ -2,6 +2,7 @@
 import {getDateString} from "../../../shared/helpers/dateOps.js";
 import {useRouter} from "vue-router";
 import {percentage} from "@/shared/helpers/getCompletionPercentage.js";
+
 const router = useRouter()
 defineProps(['workout'])
 </script>

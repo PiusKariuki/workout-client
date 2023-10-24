@@ -2,7 +2,7 @@ import {ref, shallowRef} from "vue";
 import $axios from "@/shared/http/Axios.js";
 
 
- export async function useFetch(url, config = {}, $axiosInstance = $axios){
+export async function useFetch(url, config = {}, $axiosInstance = $axios){
     const response = shallowRef()
     const status = ref(0)
     // data object which is a child of the response

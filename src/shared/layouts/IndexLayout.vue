@@ -1,9 +1,6 @@
 <script setup>
 import Navbar from "../components/navs/Navbar.vue";
 import TabBar from "@/shared/components/navs/TabBar.vue";
-
-
-
 </script>
 
 <template>

@@ -21,6 +21,17 @@ export const routes = [
                 name: "workout-details",
                 component: () => import("@/modules/Workout/views/WorkoutDetails.vue")
             },
+            {
+                path: 'history',
+                name: 'my-history',
+                component: () => import("@/modules/Workout/views/MyHistory.vue")
+            },
+            {
+                path: 'reports',
+                name: 'my-reports',
+                component: () => import("@/modules/Reports/views/Reports.vue")
+            },
+
 
         ]
     }
