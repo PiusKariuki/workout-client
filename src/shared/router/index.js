@@ -31,8 +31,11 @@ export const routes = [
                 name: 'my-reports',
                 component: () => import("@/modules/Reports/views/Reports.vue")
             },
-
-
+            {
+                path: 'login',
+                name: 'login',
+                component: () => import("@/modules/Auth/views/Login.vue")
+            }
         ]
     }
 ]

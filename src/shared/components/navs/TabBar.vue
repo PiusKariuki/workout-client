@@ -19,7 +19,7 @@ const links = [
   },
   {
     icon: "fa-regular fa-circle-user",
-    link: "/profile"
+    link: "/login"
   },
 
 ]
