@@ -41,7 +41,16 @@ export const routes = [
                 meta: {
                     checkAuth: true
                 }
-            }
+            },
+            {
+                path: 'recover',
+                name: 'recover-password',
+                component: () => import("@/modules/Auth/views/RecoverPassword.vue"),
+                meta: {
+                    checkAuth: true
+                }
+            },
+
         ]
     }
 ]
