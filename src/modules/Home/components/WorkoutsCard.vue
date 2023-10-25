@@ -11,7 +11,7 @@ defineProps(['workout'])
   <div class="flex flex-col gap-2 w-[65vw] flex-shrink-0">
     <div
         :style="{backgroundImage: `url(${workout?.category?.banner})`}"
-        @click="router.push(`/workouts/${workout?.id}`)"
+        @click="router.push({name: 'workout-details', params: {workoutId: workout.id}})"
         class="flex flex-col rounded-lg  w-full relative gap-2  h-56 bg-center bg-cover">
       <div
           class="radial-progress bg-secondary/60 text-sm text-cta font-semibold ml-auto mt-2 mr-2"

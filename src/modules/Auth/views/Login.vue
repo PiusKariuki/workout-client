@@ -1,10 +1,10 @@
 <script setup>
-
 import {ref, watch} from "vue";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
 import Swal from "sweetalert2";
 import {useAuthStore} from "@/shared/store/authStore.js";
 import {useRouter} from "vue-router";
+
 
 const email = ref(null)
 const password = ref(null)
@@ -67,10 +67,9 @@ const handleSubmit = async evt => {
 
 <template>
   <div class="flex flex-col gap-6">
-    <p class="text-2xl">Welcome to Boats & Logs, <br> Sign in to continue</p>
     <p class="">Don't have an account? <router-link to="/register" class="underline font-medium" href="">Create an account</router-link></p>
     <form class="flex flex-col gap-8 py-12" @submit="handleSubmit">
-      <maz-input v-model="email" label="Email" required/>
+      <maz-input type="email" v-model="email" label="Email" required/>
       <maz-input v-model="password" label="Password" required type="password"/>
       <router-link class="self-center underline" to="/recover">Forgot Password?</router-link>
       <spinner v-if="loading" class="self-center text-cta" color="cta"/>

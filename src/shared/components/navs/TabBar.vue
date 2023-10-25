@@ -2,6 +2,8 @@
 import {useNavIcons} from "@/shared/composables/navIcons.js";
 import {useAuthStore} from "@/shared/store/authStore.js";
 import Swal from "sweetalert2";
+import {useRouter} from "vue-router";
+import router from "@/shared/router/index.js";
 
 const {links} = useNavIcons()
 const authStore = useAuthStore()
@@ -15,7 +17,6 @@ const handleLogout = () => {
   }).then((res) => {
     if (res.isConfirmed) {
       authStore.$reset()
-      window.location.reload()
     }
   })
 }
@@ -24,14 +25,14 @@ const handleLogout = () => {
 <template>
   <div
       class="flex items-center justify-between w-full fixed bg-secondary  lg:hidden inset-x-0 bottom-0  py-8 px-4 border-t-[1px] z-20 mt-auto">
-    <router-link
+    <div
         v-for="item in links"
         v-if="links"
         :key="item.link"
-        :to="item.link"
-        class="flex flex-col gap-2">
+        @click="router.push({name:item.link})"
+        class="flex flex-col gap-2 cursor-pointer">
       <fa-icon :icon="item.icon" class="text-xl"/>
-    </router-link>
+    </div>
     <button v-if="authStore.access_token !==null"
             class="outline-btn"
             @click="handleLogout">Logout

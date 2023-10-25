@@ -13,8 +13,9 @@ const state = reactive({
   loading: false,
   isMovementListOpen: false,
   currentMovementIndex: 0,
-  movementString: ""
+  movementString: null
 })
+
 
 const newWorkoutStore = useNewWorkoutStore()
 
@@ -46,7 +47,7 @@ const {data: movementData, error: movementError, loading: movementLoading, makeR
 
 
 watch(movementData, value => {
-  if (value)
+  if (value && state.movementString)
     state.isMovementListOpen = true
 })
 
@@ -59,9 +60,23 @@ const {
 } = useAxios()
 
 
+watch(saveWorkoutError, value => {
+  if (value)
+    Swal.fire({
+      icon: 'error',
+      text: value?.response?.data?.detail
+    })
+})
+
+
 watch(saveWorkoutData, value => {
-  newWorkoutStore.$reset()
-  window.location.reload()
+  if (value)
+    Swal.fire({
+      icon: "success",
+    }).then(() => {
+      newWorkoutStore.$reset()
+      window.location.reload()
+    })
 })
 /**
  * Submit handler
@@ -85,7 +100,8 @@ const saveWorkout = async (evt) => {
 const startNewMovement = () => {
   newWorkoutStore.appendMovement({})
   state.currentMovementIndex = newWorkoutStore.movements.length - 1
-  state.movementString = ""
+  state.movementString = null
+  state.isMovementListOpen = false
 }
 
 /**
@@ -231,7 +247,8 @@ const handleCancel = () => {
 
 
     </div>
-    <spinner v-if="state.loading" class="place-self-center text-cta" color="cta"/>
+    <spinner v-if="categoryLoading || movementLoading || saveWorkoutLoading" class="place-self-center text-cta"
+             color="cta"/>
     <button v-else class="primary-btn place-self-center">save changes</button>
 
   </form>

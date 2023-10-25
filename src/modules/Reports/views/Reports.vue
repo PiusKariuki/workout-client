@@ -7,7 +7,3 @@
     <p class="text-cta text-2xl text-center mt-20">In progress</p>
   </div>
 </template>
-
-<style scoped>
-
-</style>

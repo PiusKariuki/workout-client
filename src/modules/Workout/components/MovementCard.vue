@@ -182,7 +182,7 @@ const handleCancel = () => {
   </div>
 </template>
 
-<style>
+<style scoped>
 .check {
   @apply border-cta ring-cta outline-cta;
 }

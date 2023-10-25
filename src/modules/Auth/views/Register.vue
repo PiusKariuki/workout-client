@@ -78,9 +78,8 @@ const handleSubmit = async evt => {
 
 <template>
   <div class="flex flex-col gap-6">
-    <p class="text-2xl">Welcome to Boats & Logs, <br> Sign up to continue</p>
     <p class="">Have an account?
-      <router-link class="underline font-medium" href="" to="/login">Login</router-link>
+      <router-link class="underline font-medium" href="" to="/">Login</router-link>
     </p>
     <form class="flex flex-col gap-8 py-12" @submit="handleSubmit">
       <maz-input v-model="email" label="Email" required/>

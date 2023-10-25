@@ -1,35 +1,28 @@
 import {ref} from "vue";
-import {useAuthStore} from "@/shared/store/authStore.js";
-import pinia from "@/shared/store/index.js";
 
 
 export const useNavIcons = () => {
-    const authStore = useAuthStore(pinia)
+
 
     const links = ref([
         {
             icon: "fa-solid fa-house",
-            link: "/"
+            link: "home"
         },
         {
             icon: "fa-regular fa-calendar-days",
-            link: "/history"
+            link: "my-history"
         },
         {
             icon: "fa-solid fa-circle-plus",
-            link: "/new"
+            link: "new-workout"
         },
         {
             icon: "fa-solid fa-chart-line",
-            link: "/reports"
+            link: "my-reports"
         },
     ])
 
-    if (!authStore.access_token)
-        links.value.push({
-            icon: "fa-solid fa-right-to-bracket",
-            link: "/login",
-        })
 
     return {links}
 }

@@ -16,7 +16,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "axios": "^1.5.1",
     "dayjs": "^1.11.10",
-    "maz-ui": "^3.17.0",
+    "maz-ui": "^3.19.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "sweetalert2": "^11.7.32",
