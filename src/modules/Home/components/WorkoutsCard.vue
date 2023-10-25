@@ -8,7 +8,7 @@ defineProps(['workout'])
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 w-[65vw] flex-shrink-0">
+  <div class="flex flex-col gap-2 w-[65vw] lg:w-80 flex-shrink-0 cursor-pointer">
     <div
         :style="{backgroundImage: `url(${workout?.category?.banner})`}"
         @click="router.push({name: 'workout-details', params: {workoutId: workout.id}})"

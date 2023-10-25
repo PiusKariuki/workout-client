@@ -19,7 +19,7 @@ watch(()=>authStore.access_token, value=>{
 </script>
 
 <template>
-  <div class="flex flex-col w-full pt-4 pb-28 px-4 max-w-[1800px] mx-auto min-h-screen">
+  <div class="flex flex-col w-full pt-4 pb-28 px-4 lg: px-16 max-w-[1800px] mx-auto min-h-screen">
     <navbar />
     <router-view />
     <tab-bar />
