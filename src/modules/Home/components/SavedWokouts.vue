@@ -73,7 +73,7 @@ onMounted(() => {
       <p class="text-xl">My history</p>
       <p
           @click="router.push({name: 'my-history'})"
-          class="text-cta underline cursor-pointer"
+          class="text-xm lg:text-base text-cta underline cursor-pointer"
           >See All
       </p>
     </div>

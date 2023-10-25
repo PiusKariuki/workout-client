@@ -21,7 +21,7 @@ watch(()=>authStore.access_token, value=>{
 <template>
   <div class="flex flex-col w-full pb-28  max-w-[1800px] mx-auto min-h-screen">
     <navbar />
-    <div class="flex flex-col pt-4 lg:pt-16 px-4 lg:px-16">
+    <div class="flex flex-col pt-10 lg:pt-16 px-4 lg:px-16">
       <router-view />
     </div>
 

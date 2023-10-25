@@ -31,7 +31,7 @@ onMounted(() => {
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
     <div v-if="data?.id" class="flex justify-between items-center">
       <div class="flex flex-col gap-6">
-        <p class="text-xl bg-secondary text-primary  px-4 py-1 rounded-md">Today's Activities</p>
+        <p class="md:text-xl bg-secondary text-primary  px-4 py-1 rounded-md">Today's Activities</p>
         <div class="my-badge text-cta">{{data?.category?.title }}</div>
       </div>
       <div
