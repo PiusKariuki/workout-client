@@ -8,7 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 import {
-    faChartLine,
+    faChartLine, faChevronLeft, faChevronRight,
     faCircleChevronLeft,
     faCircleChevronRight,
     faCirclePlus,
@@ -41,6 +41,8 @@ library.add(
     faChartLine,
     faCircleChevronRight,
     faCircleChevronLeft,
+    faChevronRight,
+    faChevronLeft,
     faFire,
     faDumbbell,
     faHashtag,

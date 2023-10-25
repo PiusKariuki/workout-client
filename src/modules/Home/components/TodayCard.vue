@@ -23,10 +23,11 @@ onMounted(() => {
 <template>
   <div
       :style="{backgroundImage: `url(${data?.category?.banner})`}"
-      :class="[data?.id ? 'min-h-[200px] lg:min-h-[300px]': 'min-h-[100px]']"
+      :class="[data?.id ? 'min-h-[200px] md:min-h-[300px]': 'min-h-[100px]']"
       class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary
-       bg-center bg-cover max-w-xl cursor-pointer"
-      @click="data?.id && router.push(`/workouts/${data?.id}`)">
+       bg-center bg-cover max-w-2xl cursor-pointer"
+      @click="data?.id && router.push({name: 'workout-details', params: {workoutId: data.id}})"
+  >
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
     <div v-if="data?.id" class="flex justify-between items-center">
       <div class="flex flex-col gap-6">

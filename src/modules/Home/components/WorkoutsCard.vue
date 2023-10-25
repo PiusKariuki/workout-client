@@ -8,11 +8,11 @@ defineProps(['workout'])
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 w-[65vw] lg:w-80 flex-shrink-0 cursor-pointer">
+  <div class="flex flex-col gap-2 w-[65vw] md:w-80 flex-shrink-0 cursor-pointer">
     <div
         :style="{backgroundImage: `url(${workout?.category?.banner})`}"
         @click="router.push({name: 'workout-details', params: {workoutId: workout.id}})"
-        class="flex flex-col rounded-lg  w-full relative gap-2  h-56 bg-center bg-cover">
+        class="flex flex-col rounded-lg  w-full relative gap-2  h-56 md:h-64 bg-center bg-cover">
       <div
           class="radial-progress bg-secondary/60 text-sm text-cta font-semibold ml-auto mt-2 mr-2"
           :style="{'--value': percentage(workout?.movement_links)}"

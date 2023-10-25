@@ -2,40 +2,96 @@
 
 import HistoryCard from "@/modules/Home/components/WorkoutsCard.vue";
 import Swal from "sweetalert2";
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
 
+const isRight = ref(false)
+const isLeft = ref(true)
 
 const {data, loading, error, makeRequest} = useAxios()
 
 
-watch(()=>error, value=>{
-  if(value)
+/**
+ * if error occurs
+ */
+watch(() => error, value => {
+  if (value)
     Swal.fire({
       icon: "error",
       text: value.response.detail
     })
 })
 
-onMounted(()=>{
+
+/**
+ * Chevron click handler
+ * @param direction
+ */
+const handleClick = ({direction}) => {
+  if (direction === 'left')
+    (document.getElementById('boxRef').scrollLeft -= 300)
+  else
+    (document.getElementById('boxRef').scrollLeft += 300)
+}
+
+
+/**
+ * Scroll handler to check div's position to display chevrons accordingly
+ */
+const handleScroll = () => {
+  const {scrollLeft, scrollWidth, clientWidth} = document.getElementById('boxRef')
+
+  if (scrollLeft + clientWidth === scrollWidth)
+    isRight.value = true
+  else isRight.value = false
+
+  if (scrollLeft === 0)
+    isLeft.value = true
+  else isLeft.value = false
+
+}
+
+/**
+ * get my past workouts
+ */
+onMounted(() => {
   makeRequest({
     url: '/workouts/?limit=20&offset=0',
     method: 'GET'
   })
 })
+
 </script>
 
 <template>
-  <div class="flex flex-col p-4 w-full">
+  <div class="flex flex-col p-4 w-full relative">
     <div class="flex items-center justify-between">
       <p class="text-lg font-semibold">Saved workouts</p>
       <router-link
-          to="/history"
-          class="text-cta font-semibold">See All</router-link>
+          class="text-cta font-semibold"
+          to="/home/my-history">See All
+      </router-link>
     </div>
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
-    <div class="flex w-full py-8 overflow-x-scroll gap-8">
-      <HistoryCard v-for="item in data" :workout="item" :key="item.id"/>
+    <!--    icons-->
+
+    <fa-icon
+        v-if="!loading && data?.length>0"
+        :class="[isLeft? 'hidden': 'hidden lg:block']"
+        class="absolute z-10 top-1/2 -translate-y-1/2 text-4xl left-4 cursor-pointer text-cta w-8 h-8 rounded-full bg-secondary/80 p-4"
+        icon="fa-solid fa-chevron-left"
+        @click="handleClick({direction: 'left'})"/>
+    <fa-icon
+        v-if="!loading && data?.length>0"
+        :class="[isRight ? 'hidden': 'hidden lg:block']"
+        class="absolute  z-10 top-1/2 -translate-y-1/2 text-4xl right-4 cursor-pointer text-cta w-8 h-8 rounded-full bg-secondary/80 p-4"
+        icon="fa-solid fa-chevron-right"
+        @click="handleClick({direction: 'right'})"/>
+    <div
+        id="boxRef"
+        class="flex w-full py-8 overflow-x-scroll gap-8 relative scroll-smooth"
+        @scroll="handleScroll">
+      <HistoryCard v-for="item in data" :key="item.id" :workout="item"/>
     </div>
   </div>
 </template>
