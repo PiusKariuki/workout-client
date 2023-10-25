@@ -31,14 +31,16 @@ const handleLogout = () => {
         v-for="item in links"
         v-if="links"
         :key="item.link"
-        @click="router.push({name:item.link})"
-        class="flex flex-col gap-2 cursor-pointer">
+        class="flex flex-col gap-2 cursor-pointer"
+        @click="router.push({name:item.link})">
       <fa-icon :icon="item.icon" class="text-xl"/>
     </div>
-    <button v-if="authStore.access_token !==null"
-            class="outline-btn"
-            @click="handleLogout">Logout
-    </button>
+    <fa-icon
+        v-if="authStore.access_token !==null"
+        class="text-red-500 text-xl"
+        icon="fa-solid fa-power-off"
+        @click="handleLogout"
+    />
   </div>
 </template>
 
