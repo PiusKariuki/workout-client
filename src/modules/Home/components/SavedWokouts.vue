@@ -4,9 +4,13 @@ import HistoryCard from "@/modules/Home/components/WorkoutsCard.vue";
 import Swal from "sweetalert2";
 import {onMounted, ref, watch} from "vue";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
+import {useRouter} from "vue-router";
 
+//state refs
 const isRight = ref(false)
 const isLeft = ref(true)
+
+const router = useRouter()
 
 const {data, loading, error, makeRequest} = useAxios()
 
@@ -29,9 +33,9 @@ watch(() => error, value => {
  */
 const handleClick = ({direction}) => {
   if (direction === 'left')
-    (document.getElementById('boxRef').scrollLeft -= 300)
+    (document.getElementById('boxRef').scrollLeft -= 500)
   else
-    (document.getElementById('boxRef').scrollLeft += 300)
+    (document.getElementById('boxRef').scrollLeft += 500)
 }
 
 
@@ -66,11 +70,12 @@ onMounted(() => {
 <template>
   <div class="flex flex-col p-4 w-full relative">
     <div class="flex items-center justify-between">
-      <p class="text-lg font-semibold">Saved workouts</p>
-      <router-link
-          class="text-cta font-semibold"
-          to="/home/my-history">See All
-      </router-link>
+      <p class="text-xl">My history</p>
+      <p
+          @click="router.push({name: 'my-history'})"
+          class="text-cta underline cursor-pointer"
+          >See All
+      </p>
     </div>
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
     <!--    icons-->
