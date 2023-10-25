@@ -3,7 +3,9 @@ import {useNavIcons} from "@/shared/composables/navIcons.js";
 import {useAuthStore} from "@/shared/store/authStore.js";
 import Swal from "sweetalert2";
 import {useRouter} from "vue-router";
-import router from "@/shared/router/index.js";
+
+
+const router = useRouter()
 
 const {links} = useNavIcons()
 const authStore = useAuthStore()
