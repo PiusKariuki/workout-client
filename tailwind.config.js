@@ -15,6 +15,9 @@ export default {
       },
       fontFamily: {
         rubik: ['"Rubik"']
+      },
+      backgroundImage: {
+        'squat-image': "url('https://images.pexels.com/photos/371049/pexels-photo-371049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')"
       }
     },
   },

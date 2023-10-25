@@ -1,6 +1,6 @@
 <template>
   <div
-      class="sticky top-0 bg-secondary/70 flex py-4 lg:py-6 shadow-md shadow-cta justify-between items-center z-50 px-4 lg:px-16">
+      class="sticky top-0 bg-secondary/95 flex py-4 lg:py-6 shadow-md shadow-cta lg:justify-between items-center z-50 px-4 lg:px-16">
     <router-link :to="{name: 'home'}">
       <img
           alt=""
@@ -19,6 +19,7 @@
         {{ item.title }}
       </router-link>
     </div>
+    <div class="flex lg:hidden italic self-center justify-center w-full">Boats & Logs</div>
   </div>
 </template>
 
