@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, watch} from 'vue'
+import {onMounted, reactive, ref, watch} from 'vue'
 import Swal from "sweetalert2";
 import {useNewWorkoutStore} from "@/shared/store/newWorkoutStore.js";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
@@ -7,20 +7,23 @@ import {useRouter} from "vue-router";
 
 const router = useRouter()
 
-const state = reactive({
-  category: "",
-  categories: [],
-  loading: false,
-  isMovementListOpen: false,
-  currentMovementIndex: 0,
-  movementString: null
-})
+//state refs
+const categories = ref([])
+const isMovementListOpen = ref(false)
+const currentMovementIndex = ref(0)
+const movementSearchString = ref(null)
 
-
+//Pinia store
 const newWorkoutStore = useNewWorkoutStore()
 
+/**
+ * Get categories composable
+ */
 const {data: categoryData, loading: categoryLoading, error: categoryError, makeRequest: getCategories} = useAxios()
 
+/**
+ * If it fails to get categories
+ */
 watch(categoryError, value => {
   if (value)
     Swal.fire({
@@ -29,12 +32,19 @@ watch(categoryError, value => {
     })
 })
 
+/**
+ * If categories are fetched successfully
+ * Map through the array and add label and value field for use in maz select input
+ */
 watch(categoryData, value => {
   if (value)
-    state.categories = value.map(item => ({...item, label: item.title, value: item.id}))
+    categories.value = value.map(item => ({...item, label: item.title, value: item.id}))
 })
 
 
+/**
+ * Fetch categories on mount
+ */
 onMounted(() => {
   getCategories({
     url: "category",
@@ -43,15 +53,24 @@ onMounted(() => {
 })
 
 
+/**
+ * Composable to get an array of movements by a search string
+ */
 const {data: movementData, error: movementError, loading: movementLoading, makeRequest: getMovements} = useAxios()
 
 
+/**
+ * If it succeeds to get some movement data
+ */
 watch(movementData, value => {
-  if (value && state.movementString)
-    state.isMovementListOpen = true
+  if (value)
+    isMovementListOpen.value = true
 })
 
 
+/**
+ * Composable to save the workout to the database
+ */
 const {
   data: saveWorkoutData,
   loading: saveWorkoutLoading,
@@ -60,6 +79,9 @@ const {
 } = useAxios()
 
 
+/**
+ * If there's an error in saving the workout to the database fire a sweet alert
+ */
 watch(saveWorkoutError, value => {
   if (value)
     Swal.fire({
@@ -69,6 +91,9 @@ watch(saveWorkoutError, value => {
 })
 
 
+/**
+ * If the request to save a workout succeeds fire a sweet alert and clear the pinia store and reload since state is persisted
+ */
 watch(saveWorkoutData, value => {
   if (value)
     Swal.fire({
@@ -78,8 +103,10 @@ watch(saveWorkoutData, value => {
       window.location.reload()
     })
 })
+
 /**
  * Submit handler
+ * Sends a POST request to the database with the workout data
  * @param evt
  * @returns {Promise<void>}
  */
@@ -99,28 +126,29 @@ const saveWorkout = async (evt) => {
  */
 const startNewMovement = () => {
   newWorkoutStore.appendMovement({})
-  state.currentMovementIndex = newWorkoutStore.movements.length - 1
-  state.movementString = null
-  state.isMovementListOpen = false
+  currentMovementIndex.value = newWorkoutStore.movements.length - 1
+  movementSearchString.value = null
+  isMovementListOpen.value = false
 }
 
 /**
  * Left chevron click handler
  */
 const previousMovement = () => {
-  state.currentMovementIndex = state.currentMovementIndex === 0 ? 0 : state.currentMovementIndex - 1
+  currentMovementIndex.value = currentMovementIndex.value === 0 ? 0 : currentMovementIndex.value - 1
 }
 
 /**
  * Right chevron click handler
  */
 const nextMovement = () => {
-  state.currentMovementIndex = state.currentMovementIndex + 1
+  currentMovementIndex.value = currentMovementIndex.value + 1
 }
 
 
 /**
  * Handles clicks of a data list item
+ * If Movement already exists pop it from the list
  * @param movementObject
  */
 const handleMovementClick = (movementObject) => {
@@ -131,30 +159,29 @@ const handleMovementClick = (movementObject) => {
       text: `The ${name} exercise has already been added`
     }).then(() => {
       handleCancel()
-
     })
   } else {
     // pinia action that adds name and id of the movement object
     newWorkoutStore.addMovementNameAndID({
       name: movementObject.name,
       id: movementObject.id,
-      index: state.currentMovementIndex
+      index: currentMovementIndex.value
     })
   }
 
 
   // hide the data list
-  state.isMovementListOpen = false
+  isMovementListOpen.value = false
 }
 
 /**
  * Cancel button handler
  */
 const handleCancel = () => {
-  state.movementString = ""
-  newWorkoutStore.removeMovementObject(state.currentMovementIndex)
-  state.currentMovementIndex = state.currentMovementIndex === 0 ? 0 : state.currentMovementIndex - 1
-  state.isMovementListOpen = false
+  movementSearchString.value = ""
+  newWorkoutStore.removeMovementObject(currentMovementIndex.value)
+  currentMovementIndex.value = currentMovementIndex.value === 0 ? 0 : currentMovementIndex.value - 1
+  isMovementListOpen.value = false
 }
 
 
@@ -164,7 +191,7 @@ const handleCancel = () => {
   <form autocomplete="off" class="grid md:grid-cols-2 py-8 gap-8" @submit="saveWorkout">
     <p class="text-2xl md:col-span-2">New workout</p>
     <picker v-model="newWorkoutStore.date" label="Date" required/>
-    <maz-select v-model="newWorkoutStore.categoryId" :options="state.categories" label="Category" required/>
+    <maz-select v-model="newWorkoutStore.categoryId" :options="categories" label="Category" required/>
     <div class="flex flex-col gap-4">
       <div class="flex justify-between items-center">
         <p class="text-lg">Movements</p>
@@ -177,14 +204,14 @@ const handleCancel = () => {
       </div>
       <form class="flex flex-col relative gap-4">
         <div
-            v-if="newWorkoutStore?.movements[state.currentMovementIndex]?.movementId"
-            class="my-badge capitalize relative">{{ newWorkoutStore?.movements[state.currentMovementIndex]?.name }}
+            v-if="newWorkoutStore?.movements[currentMovementIndex]?.movementId"
+            class="my-badge capitalize relative">{{ newWorkoutStore?.movements[currentMovementIndex]?.name }}
 
         </div>
         <div v-else class="flex flex-col relative w-full">
           <maz-input
               id="movement"
-              v-model="state.movementString"
+              v-model="movementSearchString"
               autocomplete="new-password"
               list="movement"
               placeholder="Movement"
@@ -192,7 +219,7 @@ const handleCancel = () => {
               @keyup="getMovements({url: `/movement/${$event.target.value}`})"
           />
           <datalist
-              v-if="state.isMovementListOpen"
+              v-if="isMovementListOpen"
               id="movement"
               class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
           >
@@ -208,30 +235,30 @@ const handleCancel = () => {
 
 
         <maz-input
-            v-model="newWorkoutStore.movements[state.currentMovementIndex].sets"
+            v-model="newWorkoutStore.movements[currentMovementIndex].sets"
             label="Sets"
             required
             type="Number"/>
         <maz-input
-            v-model="newWorkoutStore.movements[state.currentMovementIndex].reps"
+            v-model="newWorkoutStore.movements[currentMovementIndex].reps"
             label="Reps"
             required
             type="Number"/>
         <maz-input
-            v-model="newWorkoutStore.movements[state.currentMovementIndex].secondsOfRest"
+            v-model="newWorkoutStore.movements[currentMovementIndex].secondsOfRest"
             label="Seconds of rest"
             required
             type="Number"/>
 
         <div class="flex justify-center gap-12  mt-8">
           <fa-icon
-              v-if="state.currentMovementIndex >0"
+              v-if="currentMovementIndex >0"
               class="w-6 h-6 text-cta"
               icon="fa-solid fa-circle-chevron-left"
               @click="previousMovement"
           />
           <fa-icon
-              v-if="state.currentMovementIndex === newWorkoutStore.movements.length-1"
+              v-if="currentMovementIndex === newWorkoutStore.movements.length-1"
               class="w-6 h-6 text-cta"
               icon="fa-solid fa-circle-plus"
               @click="startNewMovement"
