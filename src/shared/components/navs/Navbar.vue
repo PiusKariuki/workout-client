@@ -7,7 +7,7 @@
           alt="">
     </router-link>
 
-    <div class="flex items-center gap-24">
+    <div class="hidden lg:flex items-center gap-24">
       <router-link
           :to="{name: item.link}"
           v-for="item in links"

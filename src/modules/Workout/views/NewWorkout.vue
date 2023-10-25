@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, reactive, ref, watch} from 'vue'
+import {onMounted, ref, watch} from 'vue'
 import Swal from "sweetalert2";
 import {useNewWorkoutStore} from "@/shared/store/newWorkoutStore.js";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
@@ -110,12 +110,19 @@ watch(saveWorkoutData, value => {
  * @param evt
  * @returns {Promise<void>}
  */
-const saveWorkout = async (evt) => {
+const saveWorkout = (evt) => {
   evt.preventDefault()
-  await saveWorkoutRequest({
-    url: "workouts",
-    method: "POST",
-    data: newWorkoutStore.getPostObject
+  Swal.fire({
+    icon: "question",
+    text: "Do you want to save this workout?",
+    showDenyButton: true
+  }).then(res => {
+    if (res.isConfirmed)
+      saveWorkoutRequest({
+        url: "workouts",
+        method: "POST",
+        data: newWorkoutStore.getPostObject
+      })
   })
 
 }
@@ -188,96 +195,97 @@ const handleCancel = () => {
 </script>
 
 <template>
-  <form autocomplete="off" class="grid md:grid-cols-2 py-8 gap-8" @submit="saveWorkout">
+  <form class="grid grid-cols-1 md:grid-cols-2 py-8 gap-8 max-w-6xl" @submit="saveWorkout">
     <p class="text-2xl md:col-span-2">New workout</p>
-    <picker v-model="newWorkoutStore.date" label="Date" required/>
-    <maz-select v-model="newWorkoutStore.categoryId" :options="categories" label="Category" required/>
-    <div class="flex flex-col gap-4">
-      <div class="flex justify-between items-center">
-        <p class="text-lg">Movements</p>
-        <button
-            class="outline-btn"
-            type="button"
-            @click="handleCancel">
-          Cancel
-        </button>
-      </div>
-      <form class="flex flex-col relative gap-4">
-        <div
-            v-if="newWorkoutStore?.movements[currentMovementIndex]?.movementId"
-            class="my-badge capitalize relative">{{ newWorkoutStore?.movements[currentMovementIndex]?.name }}
+    <picker
+        v-model="newWorkoutStore.date"
+        class="w-full"
+        label="Date"
+        required
+    />
+    <maz-select
+        v-model="newWorkoutStore.categoryId"
+        :options="categories"
+        label="Category"
+        required
+    />
 
-        </div>
-        <div v-else class="flex flex-col relative w-full">
-          <maz-input
-              id="movement"
-              v-model="movementSearchString"
-              autocomplete="new-password"
-              list="movement"
-              placeholder="Movement"
-              type="text"
-              @keyup="getMovements({url: `/movement/${$event.target.value}`})"
-          />
-          <datalist
-              v-if="isMovementListOpen"
-              id="movement"
-              class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
-          >
-            <option
-                v-for="move in movementData"
-                :key="move.name"
-                :value="move.name"
-                @click="handleMovementClick(move)">
-              {{ move.name }}
-            </option>
-          </datalist>
-        </div>
-
-
-        <maz-input
-            v-model="newWorkoutStore.movements[currentMovementIndex].sets"
-            label="Sets"
-            required
-            type="Number"/>
-        <maz-input
-            v-model="newWorkoutStore.movements[currentMovementIndex].reps"
-            label="Reps"
-            required
-            type="Number"/>
-        <maz-input
-            v-model="newWorkoutStore.movements[currentMovementIndex].secondsOfRest"
-            label="Seconds of rest"
-            required
-            type="Number"/>
-
-        <div class="flex justify-center gap-12  mt-8">
-          <fa-icon
-              v-if="currentMovementIndex >0"
-              class="w-6 h-6 text-cta"
-              icon="fa-solid fa-circle-chevron-left"
-              @click="previousMovement"
-          />
-          <fa-icon
-              v-if="currentMovementIndex === newWorkoutStore.movements.length-1"
-              class="w-6 h-6 text-cta"
-              icon="fa-solid fa-circle-plus"
-              @click="startNewMovement"
-          />
-          <fa-icon
-              v-else
-              class="w-6 h-6 text-cta"
-              icon="fa-solid fa-circle-chevron-right"
-              @click="nextMovement"
-          />
-        </div>
-      </form>
-
-
+    <div
+        v-if="newWorkoutStore?.movements[currentMovementIndex]?.movementId"
+        class="my-badge capitalize flex items-center relative md:col-span-2">{{
+        newWorkoutStore?.movements[currentMovementIndex]?.name
+      }}
     </div>
-    <spinner v-if="categoryLoading || movementLoading || saveWorkoutLoading" class="place-self-center text-cta"
-             color="cta"/>
-    <button v-else class="primary-btn place-self-center">save changes</button>
 
+    <div v-else class="flex flex-col relative w-full">
+      <maz-input
+          id="movement"
+          v-model="movementSearchString"
+          autocomplete="new-password"
+          list="movement"
+          placeholder="Movement"
+          type="text"
+          @keyup="getMovements({url: `/movement/${$event.target.value}`})"
+      />
+      <datalist
+          v-if="isMovementListOpen"
+          id="movement"
+          class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
+      >
+        <option
+            v-for="move in movementData"
+            :key="move.name"
+            :value="move.name"
+            @click="handleMovementClick(move)">
+          {{ move.name }}
+        </option>
+      </datalist>
+    </div>
+
+    <maz-input
+        v-model="newWorkoutStore.movements[currentMovementIndex].sets"
+        label="Sets"
+        required
+        type="Number"/>
+    <maz-input
+        v-model="newWorkoutStore.movements[currentMovementIndex].reps"
+        label="Reps"
+        required
+        type="Number"/>
+    <maz-input
+        v-model="newWorkoutStore.movements[currentMovementIndex].secondsOfRest"
+        label="Seconds of rest"
+        required
+        type="Number"/>
+
+    <div class="md:col-span-2 flex justify-center  gap-12  mt-8">
+      <fa-icon
+          v-if="currentMovementIndex >0"
+          class="w-6 h-6 text-cta"
+          icon="fa-solid fa-circle-chevron-left"
+          @click="previousMovement"
+      />
+      <fa-icon
+          v-if="currentMovementIndex === newWorkoutStore.movements.length-1"
+          class="w-6 h-6 text-cta"
+          icon="fa-solid fa-circle-plus"
+          @click="startNewMovement"
+      />
+      <fa-icon
+          v-else
+          class="w-6 h-6 text-cta"
+          icon="fa-solid fa-circle-chevron-right"
+          @click="nextMovement"
+      />
+    </div>
+
+
+    <spinner
+        v-if="categoryLoading || movementLoading || saveWorkoutLoading"
+        class="place-self-center text-cta md:col-span-2"
+        color="cta"
+    />
+    <button v-else class="primary-btn place-self-center md:col-span-2">save changes</button>
   </form>
 </template>
 
