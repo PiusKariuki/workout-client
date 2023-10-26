@@ -1,5 +1,7 @@
 <script setup>
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 </script>
 
 <template>
@@ -8,7 +10,9 @@
     <div class="flex flex-col max-w-md gap-12 justify-center px-4 py-12 text-secondary md:text-primary bg-primary/20 md:bg-transparent md:bg-none">
       <p class="text-2xl md:text-4xl uppercase">Be the master of your active lifestyle.</p>
       <p class="italic lg:text-lg">"You want to be uncommon amongst uncommon people. Period!" <br><span class="not-italic">~David Goggins</span></p>
-      <button class="primary-btn">Create Workout</button>
+      <button
+          @click="router.push({name: 'new-workout'})"
+          class="primary-btn">Create Workout</button>
     </div>
     <div class="hidden md:flex w-full md:h-[44vh] lg:h-[60vh] bg-squat-image bg-center bg-cover rounded-r-xl"/>
   </div>

@@ -18,16 +18,37 @@
           @click="router.push({name:item.link})">
         {{ item.title }}
       </router-link>
+      <button
+          @click="handleLogout"
+          v-if="authStore.access_token !==null"
+          class="outline-btn">Logout</button>
     </div>
+
+
     <div class="flex lg:hidden italic self-center justify-center w-full">Boats & Logs</div>
   </div>
 </template>
 
 <script setup>
 import {useNavIcons} from "@/shared/composables/navIcons.js";
+import {useAuthStore} from "@/shared/store/authStore.js";
+import Swal from "sweetalert2";
 
-
+const authStore = useAuthStore()
 const {links} = useNavIcons()
+
+
+const handleLogout = () => {
+  Swal.fire({
+    icon: "question",
+    text: "Are you sure you want to logout?",
+    showCancelButton: true
+  }).then((res) => {
+    if (res.isConfirmed) {
+      authStore.$reset()
+    }
+  })
+}
 </script>
 
 <style scoped>

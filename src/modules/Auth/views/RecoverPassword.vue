@@ -79,7 +79,7 @@ const handleSubmit = async evt => {
   <div class="flex flex-col gap-6">
     <p class="">Don't have an account? <a class="underline font-medium" href="">Create an account</a></p>
     <form class="flex flex-col gap-8 py-12" @submit="handleSubmit">
-      <maz-input v-model="email" label="Email" required/>
+      <maz-input type="email" v-model="email" label="Email" required/>
       <maz-input v-model="password" label="Password" required type="password"/>
       <div class="flex flex-col gap-1">
         <maz-input v-model="confirmPassword" label="Confirm Password" required type="password"/>

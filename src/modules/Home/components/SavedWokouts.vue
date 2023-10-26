@@ -72,9 +72,9 @@ onMounted(() => {
     <div class="flex items-center justify-between">
       <p class="text-xl">My history</p>
       <p
-          @click="router.push({name: 'my-history'})"
           class="text-xm lg:text-base text-cta underline cursor-pointer"
-          >See All
+          @click="router.push({name: 'my-history'})"
+      >See All
       </p>
     </div>
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
@@ -100,5 +100,31 @@ onMounted(() => {
         @scroll="handleScroll">
       <HistoryCard v-for="item in data" :key="item.id" :workout="item"/>
     </div>
+
+    <div
+        v-if="data?.length ===0"
+        class="flex flex-col w-full md:flex-row">
+      <div
+          class="flex flex-col rounded-xl shadow-lg shadow-cta px-4 py-4 gap-12 bg-center bg-cover lg:w-[40vw]
+          cursor-pointer bg-image h-[40vh]  justify-center">
+        <div class="flex flex-col gap-8 bg-secondary/70 p-4 text-primary">
+          <p class="text-2xl">Hey there rookie!👋</p>
+          <p class="">Pleased to have you join us.</p>
+          <button
+              @click="router.push({name: 'new-workout'})"
+              class="primary-btn">Create your first workout</button>
+        </div>
+
+      </div>
+    </div>
+
+
   </div>
 </template>
+
+
+<style scoped>
+.bg-image {
+  background-image: url("https://images.pexels.com/photos/4058411/pexels-photo-4058411.jpeg?auto=compress&cs=tinysrgb&w=800");
+}
+</style>
