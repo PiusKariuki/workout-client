@@ -27,14 +27,15 @@ const handleLogout = () => {
 <template>
   <div
       class="flex items-center justify-between w-full fixed bg-secondary  lg:hidden inset-x-0 bottom-0  py-8 px-4 border-t-[1px] z-20 mt-auto">
-    <div
+    <router-link
         v-for="item in links"
         v-if="links"
         :key="item.link"
+        :to="{name: item.link}"
         class="flex flex-col gap-2 cursor-pointer"
-        @click="router.push({name:item.link})">
+        >
       <fa-icon :icon="item.icon" class="text-xl"/>
-    </div>
+    </router-link>
     <fa-icon
         v-if="authStore.access_token !==null"
         class="text-red-500 text-xl"

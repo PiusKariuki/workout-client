@@ -15,7 +15,7 @@
           :key="item.link"
           :to="{name: item.link}"
           class="flex flex-col cursor-pointer text-xl "
-          @click="router.push({name:item.link})">
+          >
         {{ item.title }}
       </router-link>
       <button
