@@ -233,6 +233,7 @@ const handleCancel = () => {
           class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
       >
         <option
+            class="cursor-pointer"
             v-for="move in movementData"
             :key="move.name"
             :value="move.name"

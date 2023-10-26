@@ -22,6 +22,11 @@ export const authRoutes = [
                 name: 'recover-password',
                 component: () => import("@/modules/Auth/views/RecoverPassword.vue"),
             },
+            {
+                path: 'demo',
+                name: 'demo',
+                component: () => import("@/modules/Auth/views/Demo.vue"),
+            },
         ]
     },
 ]

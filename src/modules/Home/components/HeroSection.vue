@@ -14,7 +14,7 @@ const router = useRouter()
           @click="router.push({name: 'new-workout'})"
           class="primary-btn">Create Workout</button>
     </div>
-    <div class="hidden md:flex w-full md:h-[44vh] lg:h-[60vh] bg-squat-image bg-center bg-cover rounded-r-xl"/>
+    <div class="hidden md:flex w-full md:h-[50vh] lg:h-[60vh] bg-squat-image bg-center bg-cover rounded-r-xl"/>
   </div>
 </template>
 
