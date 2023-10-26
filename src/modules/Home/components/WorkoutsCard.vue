@@ -16,7 +16,7 @@ defineProps(['workout'])
       <div
           class="radial-progress bg-secondary/60 text-sm text-cta font-semibold ml-auto mt-2 mr-2"
           :style="{'--value': percentage(workout?.movement_links)}"
-          style="--value:70; --size:3rem; --thickness: 3px;">
+          style=" --size:3rem; --thickness: 3px;">
         {{percentage(workout?.movement_links)}}%
       </div>
     </div>

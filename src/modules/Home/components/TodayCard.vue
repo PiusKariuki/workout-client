@@ -26,7 +26,7 @@ onMounted(() => {
         :style="{backgroundImage: `url(${data?.category?.banner})`}"
         :class="[data?.id ? 'min-h-[200px] md:min-h-[300px]': 'hidden']"
         class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary
-       bg-center bg-cover max-w-2xl cursor-pointer"
+       bg-center bg-cover max-w-4xl cursor-pointer"
         @click="data?.id && router.push({name: 'workout-details', params: {workoutId: data.id}})"
     >
       <spinner v-if="loading" class="self-center text-cta" color="cta"/>
@@ -38,7 +38,7 @@ onMounted(() => {
         <div
             class="radial-progress bg-secondary/70 text-cta font-semibold "
             :style="{'--value': percentage(data?.movement_links)}"
-            style="--value:70; --size:4rem; --thickness: 3px;">
+            style="--size:4rem; --thickness: 3px;">
           {{percentage(data?.movement_links)}}%
         </div>
       </div>
