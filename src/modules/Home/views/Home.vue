@@ -7,8 +7,8 @@ import HeroSection from "@/modules/Home/components/HeroSection.vue";
 
 <template>
   <div class="flex flex-col pt-8 gap-16 md:gap-16">
-    <TodayCard />
-    <HeroSection />
-    <History />
+    <HeroSection/>
+    <TodayCard/>
+    <History/>
   </div>
 </template>
