@@ -33,9 +33,9 @@ watch(() => error, value => {
  */
 const handleClick = ({direction}) => {
   if (direction === 'left')
-    (document.getElementById('boxRef').scrollLeft -= 500)
+    (document.getElementById('boxRef').scrollLeft -= 900)
   else
-    (document.getElementById('boxRef').scrollLeft += 500)
+    (document.getElementById('boxRef').scrollLeft += 900)
 }
 
 
@@ -83,13 +83,15 @@ onMounted(() => {
     <fa-icon
         v-if="!loading && data?.length>0"
         :class="[isLeft? 'hidden': 'hidden lg:block']"
-        class="absolute z-10 top-1/2 -translate-y-1/2 text-4xl left-4 cursor-pointer text-cta w-8 h-8 rounded-full bg-secondary/80 p-4"
+        class="absolute z-20 top-1/2 -translate-y-1/2 text-4xl -left-6 cursor-pointer text-cta w-8 h-8 rounded-full
+         bg-secondary/80 shadow-md shadow-cta p-4 hover:bg-cta hover:text-secondary hover:scale-110 transition-all ease-in-out delay-75 duration-150"
         icon="fa-solid fa-chevron-left"
         @click="handleClick({direction: 'left'})"/>
     <fa-icon
         v-if="!loading && data?.length>0"
         :class="[isRight ? 'hidden': 'hidden lg:block']"
-        class="absolute  z-10 top-1/2 -translate-y-1/2 text-4xl right-4 cursor-pointer text-cta w-8 h-8 rounded-full bg-secondary/80 p-4"
+        class="absolute  z-20 top-1/2 -translate-y-1/2 text-4xl -right-6 cursor-pointer text-cta w-8 h-8 rounded-full
+         bg-secondary/80 shadow-md shadow-cta p-4 hover:bg-cta hover:text-secondary hover:scale-110 transition-all ease-in-out delay-75 duration-150"
         icon="fa-solid fa-chevron-right"
         @click="handleClick({direction: 'right'})"/>
     <div
