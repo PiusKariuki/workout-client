@@ -1,6 +1,6 @@
 <script setup>
 
-import {onMounted, watch} from "vue";
+import {onMounted} from "vue";
 import {useRouter} from "vue-router";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
 import {percentage} from "../../../shared/helpers/getCompletionPercentage.js";
@@ -10,9 +10,6 @@ const router = useRouter()
 
 const {makeRequest, data, loading, error} = useAxios()
 
-watch(error, value => {
-  console.log('value', value)
-})
 
 
 onMounted(() => {
