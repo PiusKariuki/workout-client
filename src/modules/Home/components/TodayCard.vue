@@ -59,8 +59,8 @@ onMounted(() => {
       <div
           class="flex flex-col shadow-md shadow-cta absolute left-1/2  top-1/2 -translate-y-1/2 md:left-[60%] rounded-xl
           -translate-x-1/2 z-10 p-8 lg:py-16 gap-8 w-10/12 lg:w-6/12 bg-secondary/90 md:bg-secondary">
-        <p class="text-lg">Get after it.</p>
-        <p class="italic font-light">Sweat now, smile later. Get moving and let those endorphins boost your mood and energy!</p>
+        <p class="text-lg">Get after it today.</p>
+        <p class="italic font-light">"Motivation is a fleeting spark; discipline is the enduring flame that lights the way to success."</p>
         <button
             @click="router.push({name: 'new-workout'})"
             class="primary-btn">Plan your workout for the day</button>
