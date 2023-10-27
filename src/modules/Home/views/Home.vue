@@ -6,7 +6,7 @@ import HeroSection from "@/modules/Home/components/HeroSection.vue";
 </script>
 
 <template>
-  <div class="flex flex-col pt-8 gap-16 md:gap-16">
+  <div class="flex flex-col pt-8 gap-24 md:gap-32">
     <HeroSection/>
     <TodayCard/>
     <History/>

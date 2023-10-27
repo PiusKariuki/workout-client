@@ -93,7 +93,7 @@ const clearMovement = () => {
       :model-value="modelValue"
       title="New Workout"
       @update:model-value="$emit('update:modelValue')">
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-8">
       <div
           v-if="movementId"
           class="my-badge capitalize relative">
@@ -127,20 +127,20 @@ const clearMovement = () => {
         </datalist>
       </div>
 
-      <div class="flex justify-between">
-        <div class="flex flex-col w-fit items-center">
+      <div class="flex justify-between gap-4">
+        <div class="flex flex-col w-fit items-center gap-4">
           <p class="my-badge">Sets</p>
           <maz-input
               v-model="sets"
               class="card-input"/>
         </div>
-        <div class="flex flex-col w-fit items-center">
+        <div class="flex flex-col w-fit items-center gap-4">
           <p class="my-badge">Reps</p>
           <maz-input
               v-model="reps"
               class="card-input"/>
         </div>
-        <div class="flex flex-col w-fit items-center">
+        <div class="flex flex-col w-fit items-center gap-4">
           <p class="my-badge">Rest</p>
           <maz-input
               v-model="rest"
