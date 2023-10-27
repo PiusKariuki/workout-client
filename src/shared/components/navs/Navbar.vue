@@ -4,7 +4,7 @@
     <router-link :to="{name: 'home'}">
       <img
           alt=""
-          class="w-8 h-8 rotate-45 cursor-pointer"
+          class="w-8 h-8 lg:w-12 h-12 rotate-45 cursor-pointer"
           src="/axe.svg">
     </router-link>
 
@@ -23,7 +23,6 @@
           v-if="authStore.access_token !==null"
           class="outline-btn">Logout</button>
     </div>
-
 
     <div class="flex lg:hidden italic self-center justify-center w-full">Boats & Logs</div>
   </div>
