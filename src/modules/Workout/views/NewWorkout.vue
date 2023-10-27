@@ -210,54 +210,58 @@ const handleCancel = () => {
         required
     />
 
-    <maz-input
-        v-if="newWorkoutStore?.movements[currentMovementIndex]?.movementId"
-        :placeholder="newWorkoutStore?.movements[currentMovementIndex]?.name"
-        label="Exercise"
-        disabled
-    />
 
-    <div v-else class="flex flex-col relative w-full">
+    <div class="grid grid-cols-1 md:grid-cols-2 pt-6 md:pt-12 w-full md:col-span-2 gap-8">
+      <p class="md:col-span-2 text-xl">Split information</p>
       <maz-input
-          id="movement"
-          v-model="movementSearchString"
-          autocomplete="new-password"
-          list="movement"
-          placeholder="Movement"
-          type="text"
-          @keyup="getMovements({url: `/movement/${$event.target.value}`})"
+          v-if="newWorkoutStore?.movements[currentMovementIndex]?.movementId"
+          :placeholder="newWorkoutStore?.movements[currentMovementIndex]?.name"
+          disabled
+          label="Exercise"
       />
-      <datalist
-          v-if="isMovementListOpen"
-          id="movement"
-          class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
-      >
-        <option
-            v-for="move in movementData"
-            :key="move.name"
-            :value="move.name"
-            class="cursor-pointer"
-            @click="handleMovementClick(move)">
-          {{ move.name }}
-        </option>
-      </datalist>
+      <div v-else class="flex flex-col relative w-full">
+        <maz-input
+            id="movement"
+            v-model="movementSearchString"
+            autocomplete="new-password"
+            list="movement"
+            placeholder="Movement"
+            type="text"
+            @keyup="getMovements({url: `/movement/${$event.target.value}`})"
+        />
+        <datalist
+            v-if="isMovementListOpen"
+            id="movement"
+            class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
+        >
+          <option
+              v-for="move in movementData"
+              :key="move.name"
+              :value="move.name"
+              class="cursor-pointer"
+              @click="handleMovementClick(move)">
+            {{ move.name }}
+          </option>
+        </datalist>
+      </div>
+
+      <maz-input
+          v-model="newWorkoutStore.movements[currentMovementIndex].sets"
+          label="Sets"
+          required
+          type="Number"/>
+      <maz-input
+          v-model="newWorkoutStore.movements[currentMovementIndex].reps"
+          label="Reps"
+          required
+          type="Number"/>
+      <maz-input
+          v-model="newWorkoutStore.movements[currentMovementIndex].secondsOfRest"
+          label="Seconds of rest"
+          required
+          type="Number"/>
     </div>
 
-    <maz-input
-        v-model="newWorkoutStore.movements[currentMovementIndex].sets"
-        label="Sets"
-        required
-        type="Number"/>
-    <maz-input
-        v-model="newWorkoutStore.movements[currentMovementIndex].reps"
-        label="Reps"
-        required
-        type="Number"/>
-    <maz-input
-        v-model="newWorkoutStore.movements[currentMovementIndex].secondsOfRest"
-        label="Seconds of rest"
-        required
-        type="Number"/>
 
     <div class="md:col-span-2 flex justify-center  gap-12  mt-8">
       <fa-icon
