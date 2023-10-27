@@ -233,10 +233,10 @@ const handleCancel = () => {
           class="w-full flex flex-col gap-2 border-[1px] px-2 py-2 rounded-b-lg min-h-8 absolute top-12 z-10 bg-white"
       >
         <option
-            class="cursor-pointer"
             v-for="move in movementData"
             :key="move.name"
             :value="move.name"
+            class="cursor-pointer"
             @click="handleMovementClick(move)">
           {{ move.name }}
         </option>
@@ -286,7 +286,15 @@ const handleCancel = () => {
         class="place-self-center text-cta md:col-span-2"
         color="cta"
     />
-    <button v-else class="primary-btn place-self-center md:col-span-2">save changes</button>
+    <div v-else class="flex items-center w-full justify-center gap-8 md:col-span-2">
+      <button
+          class="outline-btn "
+              type="button"
+              @click="handleCancel">Delete split
+      </button>
+      <button class="primary-btn">save changes</button>
+    </div>
+
   </form>
 </template>
 
