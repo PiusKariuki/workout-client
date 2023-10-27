@@ -210,12 +210,12 @@ const handleCancel = () => {
         required
     />
 
-    <div
+    <maz-input
         v-if="newWorkoutStore?.movements[currentMovementIndex]?.movementId"
-        class="my-badge capitalize flex items-center relative md:col-span-2">{{
-        newWorkoutStore?.movements[currentMovementIndex]?.name
-      }}
-    </div>
+        :placeholder="newWorkoutStore?.movements[currentMovementIndex]?.name"
+        label="Exercise"
+        disabled
+    />
 
     <div v-else class="flex flex-col relative w-full">
       <maz-input
@@ -289,8 +289,8 @@ const handleCancel = () => {
     <div v-else class="flex items-center w-full justify-center gap-8 md:col-span-2">
       <button
           class="outline-btn "
-              type="button"
-              @click="handleCancel">Delete split
+          type="button"
+          @click="handleCancel">Delete split
       </button>
       <button class="primary-btn">save changes</button>
     </div>
