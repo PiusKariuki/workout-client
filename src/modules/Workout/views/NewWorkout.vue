@@ -249,15 +249,18 @@ const handleCancel = () => {
           v-model="newWorkoutStore.movements[currentMovementIndex].sets"
           label="Sets"
           required
+          min="1"
           type="Number"/>
       <maz-input
           v-model="newWorkoutStore.movements[currentMovementIndex].reps"
           label="Reps"
+          min="1"
           required
           type="Number"/>
       <maz-input
           v-model="newWorkoutStore.movements[currentMovementIndex].secondsOfRest"
           label="Seconds of rest"
+          min="1"
           required
           type="Number"/>
     </div>

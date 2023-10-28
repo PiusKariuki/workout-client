@@ -5,8 +5,6 @@ import App from './App.vue'
 import router from "./shared/router/index.js";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-import Vue3EasyDataTable from 'vue3-easy-data-table';
-import 'vue3-easy-data-table/dist/style.css';
 import {
     faChartLine, faChevronLeft, faChevronRight,
     faCircleChevronLeft,
@@ -63,5 +61,4 @@ createApp(App)
     .component('MazCheck', MazCheckbox)
     .component('MazDialog', MazDialog)
     .component('Spinner', MazSpinner)
-    .component('DataTable', Vue3EasyDataTable)
     .mount('#app')

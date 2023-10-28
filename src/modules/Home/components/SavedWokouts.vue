@@ -1,14 +1,10 @@
 <script setup>
-
-import HistoryCard from "@/modules/Home/components/WorkoutsCard.vue";
 import Swal from "sweetalert2";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, watch} from "vue";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
 import {useRouter} from "vue-router";
+import WorkoutsCard from "@/shared/components/cards/WorkoutsCard.vue";
 
-//state refs
-const isRight = ref(false)
-const isLeft = ref(true)
 
 const router = useRouter()
 
@@ -27,40 +23,15 @@ watch(() => error, value => {
 })
 
 
-/**
- * Chevron click handler
- * @param direction
- */
-const handleClick = ({direction}) => {
-  if (direction === 'left')
-    (document.getElementById('boxRef').scrollLeft -= 900)
-  else
-    (document.getElementById('boxRef').scrollLeft += 900)
-}
 
 
-/**
- * Scroll handler to check div's position to display chevrons accordingly
- */
-const handleScroll = () => {
-  const {scrollLeft, scrollWidth, clientWidth} = document.getElementById('boxRef')
-
-  if (scrollLeft + clientWidth === scrollWidth)
-    isRight.value = true
-  else isRight.value = false
-
-  if (scrollLeft === 0)
-    isLeft.value = true
-  else isLeft.value = false
-
-}
 
 /**
  * get my past workouts
  */
 onMounted(() => {
   makeRequest({
-    url: '/workouts/?limit=20&offset=0',
+    url: '/workouts/?limit=10&offset=0',
     method: 'GET'
   })
 })
@@ -68,9 +39,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col p-4 w-full relative">
+  <div class="flex flex-col gap-8 p-4 w-full relative">
     <div class="flex items-center justify-between">
-      <p class="text-xl">My history</p>
+      <p class="text-xl">My recent history</p>
       <p
           class="text-xm lg:text-base text-cta underline cursor-pointer"
           @click="router.push({name: 'my-history'})"
@@ -78,27 +49,11 @@ onMounted(() => {
       </p>
     </div>
     <spinner v-if="loading" class="self-center text-cta" color="cta"/>
-    <!--    icons-->
 
-    <fa-icon
-        v-if="!loading && data?.length>0"
-        :class="[isLeft? 'hidden': 'hidden lg:block']"
-        class="absolute z-20 top-1/2 -translate-y-1/2 text-4xl -left-6 cursor-pointer text-cta w-8 h-8 rounded-full
-         bg-secondary/80 shadow-md shadow-cta p-4 hover:bg-cta hover:text-secondary hover:scale-110 transition-all ease-in-out delay-75 duration-150"
-        icon="fa-solid fa-chevron-left"
-        @click="handleClick({direction: 'left'})"/>
-    <fa-icon
-        v-if="!loading && data?.length>0"
-        :class="[isRight ? 'hidden': 'hidden lg:block']"
-        class="absolute  z-20 top-1/2 -translate-y-1/2 text-4xl -right-6 cursor-pointer text-cta w-8 h-8 rounded-full
-         bg-secondary/80 shadow-md shadow-cta p-4 hover:bg-cta hover:text-secondary hover:scale-110 transition-all ease-in-out delay-75 duration-150"
-        icon="fa-solid fa-chevron-right"
-        @click="handleClick({direction: 'right'})"/>
-    <div
-        id="boxRef"
-        class="flex w-full py-8 overflow-x-scroll gap-8 relative scroll-smooth"
-        @scroll="handleScroll">
-      <HistoryCard v-for="item in data" :key="item.id" :workout="item"/>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
+      <WorkoutsCard
+          v-for="item in data" :key="item.id" :workout="item"
+      />
     </div>
 
     <div
