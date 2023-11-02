@@ -168,7 +168,8 @@ watch(isNewWorkoutModalOpen, async () => {
     <spinner v-if="workoutsLoading || updateLoading || categoriesLoading" class="self-center text-cta" color="cta"/>
     <div v-if="workoutData?.id" class="flex flex-col py-6 gap-8">
       <!--*****************************************************************-->
-      <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-200 ">
+      <div  class="collapse collapse-arrow border border-base-300 bg-base-200 ">
+        <input type="checkbox" />
         <div class="collapse-title text-xl font-medium">
           Workout details
         </div>
