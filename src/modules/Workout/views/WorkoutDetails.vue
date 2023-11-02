@@ -7,6 +7,7 @@ import {useAxios} from "@/shared/composables/axiosComposable.js";
 import {statusOptions} from "@/modules/Workout/data/data.js";
 import NewWorkoutModal from "@/shared/components/dialogs/NewWorkoutModal.vue";
 import {getDateString} from "../../../shared/helpers/dateOps.js";
+import ReuseWorkoutModal from "@/shared/components/dialogs/ReuseWorkoutModal.vue";
 
 const route = useRoute()
 const {workoutId} = route.params
@@ -19,8 +20,8 @@ const date = ref(null)
 const edit = ref(false)
 const status = ref('all')
 const movements = ref(null)
-const isModalOpen = ref(false)
-
+const isNewWorkoutModalOpen = ref(false)
+const isReuseModalOpen = ref(false)
 
 
 /**
@@ -154,7 +155,7 @@ onMounted(() => {
   })
 })
 
-watch(isModalOpen, async()=>{
+watch(isNewWorkoutModalOpen, async () => {
   await getWorkouts()
   await filterWorkouts()
 })
@@ -167,58 +168,72 @@ watch(isModalOpen, async()=>{
     <spinner v-if="workoutsLoading || updateLoading || categoriesLoading" class="self-center text-cta" color="cta"/>
     <div v-if="workoutData?.id" class="flex flex-col py-6 gap-8">
       <!--*****************************************************************-->
-      <div class="flex flex-col lg:flex-row  justify-between gap-8  mb-10 ">
-
-        <div class="flex flex-col gap-4 p-4 bg-primary/5 w-full">
-          <div v-if="!edit" class="flex justify-between ">
-            <div class="flex items-center gap-2">
-              <fa-icon icon="fa-solid fa-dumbbell"/>
-              <p class="text-xl capitalize">{{workoutData?.category?.title}}</p>
-            </div>
-            <div class="flex items-center gap-2">
-              <fa-icon icon="fa-regular fa-calendar-days"/>
-              <p class="text-xl capitalize">{{ getDateString(workoutData.date) }}</p>
-            </div>
-          </div>
-
-          <div v-else class="flex flex-col md:flex-row w-full gap-8">
-            <maz-select
-                v-model="categoryId"
-                :disabled="!edit"
-                :options="categories"
-            />
-            <picker
-                v-model="date"
-                :disabled="!edit"/>
-          </div>
-
-          <button
-              class="primary-btn  "
-              @click="handleEdit">
-            <fa-icon icon="fa-solid fa-pen-to-square" />
-            {{ edit ? 'save' : 'edit' }}
-          </button>
+      <div tabindex="0" class="collapse collapse-arrow border border-base-300 bg-base-200 ">
+        <div class="collapse-title text-xl font-medium">
+          Workout details
         </div>
+        <div class="collapse-content">
+          <div class="flex flex-col lg:flex-row  justify-between gap-8  mb-10">
+            <div class="flex flex-col gap-4 p-4 bg-primary/5 w-full">
+              <div v-if="!edit" class="flex justify-between ">
+                <div class="flex items-center gap-2">
+                  <fa-icon icon="fa-solid fa-dumbbell"/>
+                  <p class="text-xl capitalize">{{ workoutData?.category?.title }}</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <fa-icon icon="fa-regular fa-calendar-days"/>
+                  <p class="text-xl capitalize">{{ getDateString(workoutData.date) }}</p>
+                </div>
+              </div>
 
-        <div class="flex items-center gap-8 w-full  p-4 bg-primary/5">
-          <maz-select
-              v-model="status"
-              :options="statusOptions"
-              class="w-full"
-              label="Status"
-          />
-          <button
-              class="primary-btn w-full text-xs py-4"
-              @click="isModalOpen = !isModalOpen">
-            New Split
-          </button>
+              <div v-else class="flex flex-col md:flex-row w-full gap-8">
+                <maz-select
+                    v-model="categoryId"
+                    :disabled="!edit"
+                    :options="categories"
+                />
+                <picker
+                    v-model="date"
+                    :disabled="!edit"/>
+              </div>
+
+              <button
+                  class="primary-btn  "
+                  @click="handleEdit">
+                <fa-icon icon="fa-solid fa-pen-to-square"/>
+                {{ edit ? 'save' : 'edit' }}
+              </button>
+            </div>
+
+            <div class="flex items-center gap-8 w-full  p-4 bg-primary/5">
+              <maz-select
+                  v-model="status"
+                  :options="statusOptions"
+                  class="w-full"
+                  label="Status"
+              />
+              <button
+                  class="primary-btn w-full text-xs py-4"
+                  @click="isNewWorkoutModalOpen = !isNewWorkoutModalOpen">
+                New Split
+              </button>
+            </div>
+
+            <div class="flex flex-col lg:items-center gap-8 w-full justify-center  p-4 bg-primary/5">
+              <button
+                  @click="isReuseModalOpen = !isReuseModalOpen"
+                  class="primary-btn">Re-use this workout</button>
+            </div>
+
+          </div>
         </div>
-
       </div>
 
 
+
+      <reuse-workout-modal v-model="isReuseModalOpen"/>
       <new-workout-modal
-          v-model="isModalOpen"
+          v-model="isNewWorkoutModalOpen"
       />
 
       <!--*************************************************************-->
