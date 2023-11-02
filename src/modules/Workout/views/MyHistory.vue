@@ -38,9 +38,9 @@ const fetchMore = async () => {
 
     <p class="text-2xl lg:text-4xl text-center">My workout history</p>
 
-    <div v-if="workouts.length>0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
-
+    <div  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
       <WorkoutsCard
+          v-if="workouts.length>0"
           v-for="item in workouts" :key="item.id" :workout="item"
       />
       <spinner v-if="loading" class="self-center text-cta place-self-center col-span-full" color="cta"/>
