@@ -6,6 +6,7 @@ import MovementCard from "@/modules/Workout/components/MovementCard.vue";
 import {useAxios} from "@/shared/composables/axiosComposable.js";
 import {statusOptions} from "@/modules/Workout/data/data.js";
 import NewWorkoutModal from "@/shared/components/dialogs/NewWorkoutModal.vue";
+import {getDateString} from "../../../shared/helpers/dateOps.js";
 
 const route = useRoute()
 const {workoutId} = route.params
@@ -164,37 +165,58 @@ watch(isModalOpen, async()=>{
 <template>
   <div class="flex flex-col w-full">
     <spinner v-if="workoutsLoading || updateLoading || categoriesLoading" class="self-center text-cta" color="cta"/>
-    <div v-if="workoutData?.id" class="flex flex-col py-8 gap-8">
+    <div v-if="workoutData?.id" class="flex flex-col py-6 gap-8">
       <!--*****************************************************************-->
-      <div class="flex justify-between gap-8 items-center">
-        <maz-select
-            v-model="categoryId"
-            :disabled="!edit"
-            :options="categories"
-        />
-        <picker
-            v-model="date"
-            :disabled="!edit"/>
-        <button
-            class="primary-btn ml-auto"
-            @click="handleEdit">
-          {{ edit ? 'save' : 'edit' }}
-        </button>
+      <div class="flex flex-col lg:flex-row  justify-between gap-8  mb-10 ">
+
+        <div class="flex flex-col gap-4 p-4 bg-primary/5 w-full">
+          <div v-if="!edit" class="flex justify-between ">
+            <div class="flex items-center gap-2">
+              <fa-icon icon="fa-solid fa-dumbbell"/>
+              <p class="text-xl capitalize">{{workoutData?.category?.title}}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <fa-icon icon="fa-regular fa-calendar-days"/>
+              <p class="text-xl capitalize">{{ getDateString(workoutData.date) }}</p>
+            </div>
+          </div>
+
+          <div v-else class="flex flex-col md:flex-row w-full gap-8">
+            <maz-select
+                v-model="categoryId"
+                :disabled="!edit"
+                :options="categories"
+            />
+            <picker
+                v-model="date"
+                :disabled="!edit"/>
+          </div>
+
+          <button
+              class="primary-btn  "
+              @click="handleEdit">
+            <fa-icon icon="fa-solid fa-pen-to-square" />
+            {{ edit ? 'save' : 'edit' }}
+          </button>
+        </div>
+
+        <div class="flex items-center gap-8 w-full  p-4 bg-primary/5">
+          <maz-select
+              v-model="status"
+              :options="statusOptions"
+              class="w-full"
+              label="Status"
+          />
+          <button
+              class="primary-btn w-full text-xs py-4"
+              @click="isModalOpen = !isModalOpen">
+            New Split
+          </button>
+        </div>
+
       </div>
 
-      <div class="flex items-center gap-8 w-full">
-        <maz-select
-            v-model="status"
-            :options="statusOptions"
-            class="w-full"
-            label="Status"
-        />
-        <button
-            class="primary-btn w-40 text-xs py-4"
-            @click="isModalOpen = !isModalOpen">
-          Add workout
-        </button>
-      </div>
+
       <new-workout-modal
           v-model="isModalOpen"
       />
