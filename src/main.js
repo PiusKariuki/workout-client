@@ -6,16 +6,17 @@ import router from "./shared/router/index.js";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {
+    faBan,
     faChartLine, faChevronDown, faChevronLeft, faChevronRight,
     faCircleChevronLeft,
     faCircleChevronRight,
     faCirclePlus,
     faCircleXmark,
     faClock,
-    faDumbbell,
-    faFire,
+    faDumbbell, faFilter,
+    faFire, faHandBackFist,
     faHashtag,
-    faHouse,
+    faHouse, faList,
     faMagnifyingGlass, faPenToSquare, faPowerOff, faRightToBracket
 } from "@fortawesome/free-solid-svg-icons";
 import {faBell, faCalendarDays, faCircleUser, faSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";
@@ -50,7 +51,11 @@ library.add(
     faCircleXmark,
     faPowerOff,
     faRightToBracket,
-    faPenToSquare
+    faPenToSquare,
+    faFilter,
+    faHandBackFist,
+    faList,
+    faBan
 )
 
 createApp(App)

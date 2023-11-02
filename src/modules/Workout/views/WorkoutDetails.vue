@@ -135,6 +135,18 @@ const handleEdit = async () => {
   await filterWorkouts()
 }
 
+/**
+ * Cancel edit handler
+ * Closes form fields and reverts values to default
+ */
+const handleCancel = () =>{
+  categoryName.value = workoutData.value.category?.title
+  categoryId.value = workoutData.value.category?.id
+  date.value = workoutData.value.date
+  filterWorkouts()
+  edit.value = !edit.value
+}
+
 
 /**
  * Watch for changes on status filter
@@ -168,14 +180,19 @@ watch(isNewWorkoutModalOpen, async () => {
     <spinner v-if="workoutsLoading || updateLoading || categoriesLoading" class="self-center text-cta" color="cta"/>
     <div v-if="workoutData?.id" class="flex flex-col py-6 gap-8">
       <!--*****************************************************************-->
-      <div  class="collapse collapse-arrow  shadow-md shadow-cta rounded-lg border-cta border-[1px]">
-        <input type="checkbox" />
-        <div class="collapse-title text-xl font-medium text-center">
-          Workout details
+      <div class="collapse collapse-arrow  shadow-md shadow-cta rounded-lg border-cta border-[1px]">
+        <input type="checkbox"/>
+        <div class="collapse-title text-xl text-center">
+          Actions
         </div>
         <div class="collapse-content">
           <div class="flex flex-col lg:flex-row  justify-between gap-8  mb-10">
-            <div class="flex flex-col gap-4 p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px] w-full">
+            <div class="flex flex-col gap-8 p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px] w-full">
+              <div class="flex items-center gap-2 self-start text-cta underline">
+                <fa-icon class="" icon="fa-solid fa-list"/>
+                <p class="font-medium">Workout details</p>
+              </div>
+
               <div v-if="!edit" class="flex justify-between ">
                 <div class="flex items-center gap-2">
                   <fa-icon icon="fa-solid fa-dumbbell"/>
@@ -198,38 +215,62 @@ watch(isNewWorkoutModalOpen, async () => {
                     :disabled="!edit"/>
               </div>
 
-              <button
-                  class="primary-btn  "
-                  @click="handleEdit">
-                <fa-icon icon="fa-solid fa-pen-to-square"/>
-                {{ edit ? 'save' : 'edit' }}
-              </button>
+              <div class="flex items-center justify-between gap-8">
+                <button
+                    class="primary-btn  "
+                    @click="handleEdit">
+                  <fa-icon icon="fa-solid fa-pen-to-square"/>
+                  {{ edit ? 'save' : 'edit' }}
+                </button>
+                <button
+                    class="outline-btn  "
+                    @click="handleCancel">
+                  <fa-icon icon="fa-solid fa-ban"/>
+                  Cancel
+                </button>
+              </div>
+
             </div>
 
-            <div class="flex items-center gap-8 w-full  p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px]">
+            <div
+                class="flex flex-col items-center gap-8 w-full  p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px]">
+              <div class="flex items-center gap-2 self-start text-cta underline">
+                <fa-icon class="" icon="fa-solid fa-filter"/>
+                <p class="font-medium">Filter splits</p>
+              </div>
               <maz-select
                   v-model="status"
                   :options="statusOptions"
                   class="w-full"
                   label="Status"
               />
-              <button
-                  class="primary-btn w-full text-xs py-4"
-                  @click="isNewWorkoutModalOpen = !isNewWorkoutModalOpen">
-                New Split
-              </button>
+
             </div>
 
-            <div class="flex flex-col lg:items-center gap-8 w-full justify-center  p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px]">
-              <button
-                  @click="isReuseModalOpen = !isReuseModalOpen"
-                  class="primary-btn self-center">Re-use this workout</button>
+            <div
+                class="flex flex-col  lg:items-center gap-8 w-full justify-center py-4  px-2 md:px-4 shadow-md shadow-cta rounded-lg border-cta border-[1px]">
+              <div class="flex items-center gap-2 self-start text-cta underline">
+                <fa-icon icon="fa-solid fa-hand-back-fist"/>
+                <p class="font-medium">Actions</p>
+              </div>
+              <div class="flex justify-between gap-4 md:gap-8 w-full mt-auto">
+                <button
+                    class="primary-btn w-7/12 text-xs md:text-base"
+                    @click="isNewWorkoutModalOpen = !isNewWorkoutModalOpen">
+                  New Split
+                </button>
+                <button
+                    class="primary-btn w-full text-sm md:text-base"
+                    @click="isReuseModalOpen = !isReuseModalOpen">
+                  Re-use workout
+                </button>
+              </div>
+
             </div>
 
           </div>
         </div>
       </div>
-
 
 
       <reuse-workout-modal v-model="isReuseModalOpen"/>
