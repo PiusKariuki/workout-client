@@ -1,28 +1,59 @@
 <script setup>
 import {useAxios} from "@/shared/composables/axiosComposable.js";
-import {onMounted} from "vue";
+import {onMounted, ref, watch} from "vue";
 import WorkoutsCard from "@/shared/components/cards/WorkoutsCard.vue";
 
+const workouts = ref([])
+const limit = ref(8)
+const offset = ref(0)
+
 const {data, loading, makeRequest} = useAxios()
+
+watch(data, value => {
+  if (value)
+    workouts.value = [...workouts.value, ...data.value]
+})
 
 
 onMounted(() => {
   makeRequest({
-    url: '/workouts?limit=100&offset=0',
+    url: `/workouts?limit=${limit.value}&offset=${offset.value}`,
     method: 'GET'
   })
 })
+
+const fetchMore = async () => {
+  offset.value  = workouts.value.length
+  makeRequest({
+    url: `/workouts?limit=${limit.value}&offset=${offset.value}`,
+    method: 'GET'
+  })
+}
+
 
 </script>
 
 <template>
   <div class="flex flex-col gap-8 lg:gap-16">
-    <spinner v-if="loading" class="self-center text-cta" color="cta"/>
-    <p class="text-2xl lg:text-4xl">My workout history</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
+
+    <p class="text-2xl lg:text-4xl text-center">My workout history</p>
+
+    <div v-if="workouts.length>0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
+
       <WorkoutsCard
-          v-for="item in data" :key="item.id" :workout="item"
+          v-for="item in workouts" :key="item.id" :workout="item"
       />
+      <spinner v-if="loading" class="self-center text-cta place-self-center col-span-full" color="cta"/>
+      <div
+          @click="fetchMore"
+          v-else
+          class="flex text-xl gap-2  items-center place-self-center col-span-full cursor-pointer my-badge text-secondary
+          bg-cta"
+          onclick="">
+        <p class="">More</p>
+        <fa-icon icon="fa-solid fa-chevron-down"/>
+      </div>
+
     </div>
   </div>
 </template>

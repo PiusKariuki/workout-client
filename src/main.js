@@ -6,7 +6,7 @@ import router from "./shared/router/index.js";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {
-    faChartLine, faChevronLeft, faChevronRight,
+    faChartLine, faChevronDown, faChevronLeft, faChevronRight,
     faCircleChevronLeft,
     faCircleChevronRight,
     faCirclePlus,
@@ -39,6 +39,7 @@ library.add(
     faChartLine,
     faCircleChevronRight,
     faCircleChevronLeft,
+    faChevronDown,
     faChevronRight,
     faChevronLeft,
     faFire,
