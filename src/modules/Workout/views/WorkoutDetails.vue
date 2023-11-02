@@ -168,14 +168,14 @@ watch(isNewWorkoutModalOpen, async () => {
     <spinner v-if="workoutsLoading || updateLoading || categoriesLoading" class="self-center text-cta" color="cta"/>
     <div v-if="workoutData?.id" class="flex flex-col py-6 gap-8">
       <!--*****************************************************************-->
-      <div  class="collapse collapse-arrow border border-base-300 bg-base-200 ">
+      <div  class="collapse collapse-arrow  shadow-md shadow-cta rounded-lg border-cta border-[1px]">
         <input type="checkbox" />
-        <div class="collapse-title text-xl font-medium">
+        <div class="collapse-title text-xl font-medium text-center">
           Workout details
         </div>
         <div class="collapse-content">
           <div class="flex flex-col lg:flex-row  justify-between gap-8  mb-10">
-            <div class="flex flex-col gap-4 p-4 bg-primary/5 w-full">
+            <div class="flex flex-col gap-4 p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px] w-full">
               <div v-if="!edit" class="flex justify-between ">
                 <div class="flex items-center gap-2">
                   <fa-icon icon="fa-solid fa-dumbbell"/>
@@ -206,7 +206,7 @@ watch(isNewWorkoutModalOpen, async () => {
               </button>
             </div>
 
-            <div class="flex items-center gap-8 w-full  p-4 bg-primary/5">
+            <div class="flex items-center gap-8 w-full  p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px]">
               <maz-select
                   v-model="status"
                   :options="statusOptions"
@@ -220,10 +220,10 @@ watch(isNewWorkoutModalOpen, async () => {
               </button>
             </div>
 
-            <div class="flex flex-col lg:items-center gap-8 w-full justify-center  p-4 bg-primary/5">
+            <div class="flex flex-col lg:items-center gap-8 w-full justify-center  p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px]">
               <button
                   @click="isReuseModalOpen = !isReuseModalOpen"
-                  class="primary-btn">Re-use this workout</button>
+                  class="primary-btn self-center">Re-use this workout</button>
             </div>
 
           </div>

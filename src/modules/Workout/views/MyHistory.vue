@@ -95,7 +95,6 @@ onMounted(() => {
  * @returns {Promise<void>}
  */
 const fetchMore = async () => {
-  // offset.value = workouts.value.length
   limit.value *=2
   fetchWorkouts()
 }
@@ -117,15 +116,24 @@ const handleClear = () => {
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
 
-      <div class="col-span-full flex flex-col md:flex-row w-full gap-8 p-4 bg-primary/5">
-        <maz-select v-model="categoryId" :options="categories" label="Categories" @selected-option="fetchWorkouts"/>
-        <picker v-model="minDate" label="Min Date"/>
-        <picker v-model="maxDate" :min-date="minDate" label="Max Date"/>
+      <div  class="collapse collapse-arrow  col-span-full shadow-md shadow-cta rounded-lg border-cta border-[1px]">
+        <input type="checkbox" />
+        <div class="collapse-title text-xl text-center">
+          Filters
+        </div>
+        <div class="collapse-content">
+          <div class=" flex flex-col md:flex-row w-full gap-8 px-4 py-4 lg:py-8 ">
+            <maz-select class="w-full" v-model="categoryId" :options="categories" label="Categories" @selected-option="fetchWorkouts"/>
+            <picker class="w-full" v-model="minDate" label="Min Date"/>
+            <picker class="w-full" v-model="maxDate" :min-date="minDate" label="Max Date"/>
 
-        <div class="flex items-center gap-6">
-          <button @click="handleClear" class="outline-btn w-full md:w-40">Clear filters</button>
+            <div class="flex items-center gap-6 lg:ml-auto">
+              <button @click="handleClear" class="outline-btn w-full md:w-40">Clear filters</button>
+            </div>
+          </div>
         </div>
       </div>
+
 
       <WorkoutsCard
           v-for="item in workouts"
