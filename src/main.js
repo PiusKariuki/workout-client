@@ -7,17 +7,26 @@ import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {
     faBan,
-    faChartLine, faChevronDown, faChevronLeft, faChevronRight,
+    faChartLine,
+    faChevronDown,
+    faChevronLeft,
+    faChevronRight,
     faCircleChevronLeft,
     faCircleChevronRight,
     faCirclePlus,
     faCircleXmark,
     faClock,
-    faDumbbell, faFilter,
-    faFire, faHandBackFist,
+    faDumbbell,
+    faFilter,
+    faFire,
+    faHandBackFist,
     faHashtag,
-    faHouse, faList,
-    faMagnifyingGlass, faPenToSquare, faPowerOff, faRightToBracket
+    faHouse,
+    faList,
+    faMagnifyingGlass,
+    faPenToSquare,
+    faPowerOff,
+    faRightToBracket
 } from "@fortawesome/free-solid-svg-icons";
 import {faBell, faCalendarDays, faCircleUser, faSquare, faSquareCheck} from "@fortawesome/free-regular-svg-icons";
 import MazInput from 'maz-ui/components/MazInput'
