@@ -223,6 +223,7 @@ watch(isNewWorkoutModalOpen, async () => {
                   {{ edit ? 'save' : 'edit' }}
                 </button>
                 <button
+                    v-if="edit"
                     class="outline-btn  "
                     @click="handleCancel">
                   <fa-icon icon="fa-solid fa-ban"/>
