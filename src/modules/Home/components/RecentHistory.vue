@@ -31,7 +31,7 @@ watch(() => error, value => {
  */
 onMounted(() => {
   makeRequest({
-    url: '/workouts/?limit=10&offset=0',
+    url: '/workouts/?limit=6',
     method: 'GET'
   })
 })
