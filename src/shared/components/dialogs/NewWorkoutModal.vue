@@ -78,6 +78,8 @@ const save = async () => {
       rest_in_seconds: rest.value
     }
   })
+  //clear fields
+  await clearMovement()
 }
 
 const clearMovement = () => {
