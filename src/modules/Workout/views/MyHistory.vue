@@ -15,19 +15,19 @@ watch(data, value => {
 })
 
 
+const fetchWorkouts = () => makeRequest({
+  url: `/workouts?limit=${limit.value}&offset=${offset.value}`,
+  method: 'GET'
+})
+
+
 onMounted(() => {
-  makeRequest({
-    url: `/workouts?limit=${limit.value}&offset=${offset.value}`,
-    method: 'GET'
-  })
+  fetchWorkouts()
 })
 
 const fetchMore = async () => {
-  offset.value  = workouts.value.length
-  makeRequest({
-    url: `/workouts?limit=${limit.value}&offset=${offset.value}`,
-    method: 'GET'
-  })
+  offset.value = workouts.value.length
+  fetchWorkouts()
 }
 
 
@@ -45,11 +45,11 @@ const fetchMore = async () => {
       />
       <spinner v-if="loading" class="self-center text-cta place-self-center col-span-full" color="cta"/>
       <div
-          @click="fetchMore"
           v-else
           class="flex text-xl gap-2  items-center place-self-center col-span-full cursor-pointer my-badge text-secondary
           bg-cta"
-          onclick="">
+          onclick=""
+          @click="fetchMore">
         <p class="">More</p>
         <fa-icon icon="fa-solid fa-chevron-down"/>
       </div>
