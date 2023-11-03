@@ -37,6 +37,7 @@ onMounted(() => {
           <div class="my-badge text-cta">{{ data?.category?.title }}</div>
         </div>
         <div
+            v-if="data.movement_links.length >0"
             :style="{'--value': percentage(data?.movement_links)}"
             class="radial-progress bg-secondary/70 text-cta font-semibold "
             style="--size:4rem; --thickness: 3px;">
