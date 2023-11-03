@@ -4,7 +4,7 @@ import {onMounted, ref, watch} from "vue";
 import WorkoutsCard from "@/shared/components/cards/WorkoutsCard.vue";
 
 const workouts = ref([])
-const limit = ref(4)
+const limit = ref(8)
 const categoryId = ref(null)
 const categories = ref([])
 const maxDate = ref(null)
@@ -101,6 +101,7 @@ const fetchMore = async () => {
 
 
 const handleClear = () => {
+  limit.value = 8
   categories.value = null
   minDate.value = null
   maxDate.value = null
@@ -116,14 +117,14 @@ const handleClear = () => {
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
 
-      <div  class="collapse collapse-arrow  col-span-full shadow-md shadow-cta rounded-lg border-cta border-[1px]">
+      <div  class="collapse collapse-arrow  col-span-full shadow-md shadow-cta rounded-lg border-cta border-[1px] ">
         <input type="checkbox" />
         <div class="collapse-title text-xl text-center">
           Filters
         </div>
-        <div class="collapse-content">
-          <div class=" flex flex-col md:flex-row w-full gap-8 px-4 py-4 lg:py-8 ">
-            <maz-select class="w-full" v-model="categoryId" :options="categories" label="Categories" @selected-option="fetchWorkouts"/>
+        <div class="collapse-content overflow-y-scroll">
+          <div class=" flex flex-col md:flex-row w-full gap-8 px-4 py-4 lg:pt-8 lg:pb-28">
+            <maz-select class="w-full z-40" v-model="categoryId" :options="categories" label="Categories" @selected-option="fetchWorkouts"/>
             <picker class="w-full" v-model="minDate" label="Min Date"/>
             <picker class="w-full" v-model="maxDate" :min-date="minDate" label="Max Date"/>
 
@@ -133,18 +134,19 @@ const handleClear = () => {
           </div>
         </div>
       </div>
+      <spinner
+          v-if="workoutLoading || categoriesLoading"
+          class="self-center text-cta place-self-center col-span-full"
+          color="cta"/>
 
 
       <WorkoutsCard
           v-for="item in workouts"
           v-if="workouts.length>0" :key="item.id" :workout="item"
       />
-      <spinner
-          v-if="workoutLoading || categoriesLoading"
-          class="self-center text-cta place-self-center col-span-full"
-          color="cta"/>
+
       <div
-          v-else
+          v-if="!workoutLoading && !categoriesLoading"
           class="flex text-xl gap-2  items-center place-self-center col-span-full cursor-pointer my-badge text-secondary
           bg-cta"
           onclick=""
