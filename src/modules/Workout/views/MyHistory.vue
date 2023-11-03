@@ -102,7 +102,7 @@ const fetchMore = async () => {
 
 const handleClear = () => {
   limit.value = 8
-  categoryId.valueOf = null
+  categoryId.value = null
   minDate.value = null
   maxDate.value = null
   fetchWorkouts()
