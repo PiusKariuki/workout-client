@@ -60,7 +60,7 @@ onMounted(() => {
         v-if="data?.length ===0"
         class="flex flex-col w-full md:flex-row">
       <div
-          class="flex flex-col rounded-xl shadow-lg shadow-cta px-4 py-4 gap-12 bg-center bg-cover lg:w-[40vw]
+          class="flex flex-col rounded-xl shadow-md shadow-cta px-4 py-4 gap-12 bg-center bg-cover lg:w-[40vw]
           cursor-pointer bg-image h-[40vh]  justify-center">
         <div class="flex flex-col gap-8 bg-secondary/70 p-4 text-primary">
           <p class="text-2xl">Hey there rookie!👋</p>

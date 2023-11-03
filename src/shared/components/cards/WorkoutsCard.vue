@@ -15,7 +15,7 @@ defineProps(['workout'])
       class="flex flex-col gap-4 w-full h-80 flex-shrink-0 cursor-pointer ">
     <div
         :style="{backgroundImage: `url(${workout?.category?.banner})`}"
-        class="flex flex-col h-full   bg-center bg-cover  p-8 shadow-cta shadow-lg group relative"
+        class="flex flex-col h-full   bg-center bg-cover  p-8 shadow-cta shadow-md group relative rounded-xl"
         @click="router.push({name: 'workout-details', params: {workoutId: workout.id}})">
       <div
           v-if="workout?.movement_links.length >0"

@@ -6,7 +6,7 @@ const router = useRouter()
 
 <template>
   <div class="flex flex-col md:flex-row w-full  bg-squat-image md:bg-none bg-right-top bg-cover
-  rounded-xl shadow-lg shadow-cta">
+  rounded-xl shadow-md shadow-cta">
     <div
         class="flex flex-col max-w-md gap-12 justify-center px-4 py-12 text-secondary md:text-primary bg-primary/20
         md:bg-transparent md:bg-none rounded-xl">

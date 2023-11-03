@@ -27,7 +27,7 @@ onMounted(() => {
     <div
         v-if="data?.id"
         :style="{backgroundImage: `url(${data?.category?.banner})`}"
-        class="flex flex-col rounded-xl border-[1px] border-cta shadow-lg shadow-cta px-4 py-4 gap-12 bg-secondary
+        class="flex flex-col rounded-xl border-[1px] border-cta shadow-md shadow-cta px-4 py-4 gap-12 bg-secondary
        bg-center bg-cover max-w-3xl cursor-pointer h-60 md:h-80 lg:h-96"
         @click="data?.id && router.push({name: 'workout-details', params: {workoutId: data.id}})"
     >
