@@ -280,7 +280,7 @@ watch(isNewWorkoutModalOpen, async () => {
       />
 
       <!--*************************************************************-->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-h-[80vh] overflow-y-scroll py-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-h-[80vh] overflow-y-scroll py-4">
         <movement-card v-for="move in movements" :key="move.movement_id" :move="move" @refetch="getWorkouts"/>
       </div>
 

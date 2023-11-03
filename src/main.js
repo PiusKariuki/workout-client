@@ -6,7 +6,7 @@ import router from "./shared/router/index.js";
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {
-    faBan,
+    faBan, faBriefcase,
     faChartLine,
     faChevronDown,
     faChevronLeft,
@@ -16,7 +16,7 @@ import {
     faCirclePlus,
     faCircleXmark,
     faClock,
-    faDumbbell,
+    faDumbbell, faEnvelope,
     faFilter,
     faFire,
     faHandBackFist,
@@ -36,6 +36,7 @@ import MazSelect from 'maz-ui/components/MazSelect'
 import MazDialog from 'maz-ui/components/MazDialog'
 import MazCheckbox from 'maz-ui/components/MazCheckbox'
 import pinia from "@/shared/store/index.js";
+import {faGithubAlt, faInstagram, faLinkedin, faXTwitter} from "@fortawesome/free-brands-svg-icons";
 
 
 library.add(
@@ -64,7 +65,13 @@ library.add(
     faFilter,
     faHandBackFist,
     faList,
-    faBan
+    faBan,
+    faEnvelope,
+    faBriefcase,
+    faInstagram,
+    faXTwitter,
+    faGithubAlt,
+    faLinkedin
 )
 
 createApp(App)

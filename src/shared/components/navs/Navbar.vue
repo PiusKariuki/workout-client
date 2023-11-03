@@ -4,7 +4,7 @@
     <router-link :to="{name: 'home'}">
       <img
           alt=""
-          class="w-8 h-8 lg:w-12 h-12 rotate-45 cursor-pointer"
+          class="w-8 h-8 lg:w-12 lg:h-12 -rotate-45 cursor-pointer"
           src="/axe.svg">
     </router-link>
 
