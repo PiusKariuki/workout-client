@@ -35,15 +35,10 @@ const {data, loading, error, makeRequest} = useAxios()
 /**
  * When login is successful
  */
-watch(data, value => {
-  Swal.fire({
-    icon: "success",
-    text: "Sign up successful"
-  }).then(async () => {
+watch(data, async(value)=> {
     authStore.loadToken({access_token: value.access_token, token_type: value.token_type})
     await router.push("/")
     await window.location.reload()
-  })
 })
 
 /**
