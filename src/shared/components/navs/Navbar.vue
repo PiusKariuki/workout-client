@@ -23,8 +23,7 @@
           v-if="authStore.access_token !==null"
           class="outline-btn">Logout</button>
     </div>
-
-    <div class="flex lg:hidden italic self-center justify-center w-full">Boats & Logs</div>
+    <router-link class="flex lg:hidden italic self-center justify-center w-full" :to="{name: 'home'}">Boats & Logs</router-link>
   </div>
 </template>
 
