@@ -234,8 +234,9 @@ watch(isNewWorkoutModalOpen, async () => {
             </div>
 
             <div
-                class="flex flex-col items-center gap-8 w-full  p-4 shadow-md shadow-cta rounded-lg border-cta border-[1px]">
-              <div class="flex items-center gap-2 self-start text-cta underline">
+                class="flex flex-col items-center gap-8 w-full  p-4 shadow-md shadow-cta rounded-lg border-cta
+                border-[1px] overflow-y-scroll">
+              <div class="flex items-center gap-2 self-start text-cta underline ">
                 <fa-icon class="" icon="fa-solid fa-filter"/>
                 <p class="font-medium">Filter splits</p>
               </div>
