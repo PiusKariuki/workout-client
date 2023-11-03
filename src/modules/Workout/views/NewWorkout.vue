@@ -195,7 +195,7 @@ const handleCancel = () => {
 </script>
 
 <template>
-  <form class="grid grid-cols-1 md:grid-cols-2 py-8 gap-8 max-w-6xl" @submit="saveWorkout">
+  <form class="grid grid-cols-1 md:grid-cols-2 py-8 gap-8 lg:gap-x-24" @submit="saveWorkout">
     <p class="text-2xl md:col-span-2">New workout</p>
     <picker
         v-model="newWorkoutStore.date"
@@ -211,7 +211,7 @@ const handleCancel = () => {
     />
 
 
-    <div class="grid grid-cols-1 md:grid-cols-2 pt-6 md:pt-12 w-full md:col-span-2 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 pt-6 md:pt-12 w-full md:col-span-2 gap-8 lg:gap-x-24">
       <p class="md:col-span-2 text-xl">Split information</p>
       <maz-input
           v-if="newWorkoutStore?.movements[currentMovementIndex]?.movementId"
