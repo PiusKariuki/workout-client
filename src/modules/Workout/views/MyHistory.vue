@@ -115,7 +115,7 @@ const handleClear = () => {
 
     <p class="text-2xl lg:text-4xl text-center">My workout history</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-16">
 
       <div  class="collapse collapse-arrow  col-span-full shadow-md shadow-cta rounded-lg border-cta border-[1px] ">
         <input type="checkbox" />
