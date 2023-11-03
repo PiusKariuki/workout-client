@@ -64,7 +64,7 @@ onMounted(() => {
           cursor-pointer bg-image h-[40vh]  justify-center">
         <div class="flex flex-col gap-8 bg-secondary/70 p-4 text-primary">
           <p class="text-2xl">Hey there rookie!👋</p>
-          <p class="">Pleased to have you join us.</p>
+          <p class="">Please to have you join us.</p>
           <button
               @click="router.push({name: 'new-workout'})"
               class="primary-btn">Create your first workout</button>
