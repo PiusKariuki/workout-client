@@ -1,6 +1,7 @@
 <script setup>
 import {useRouter} from "vue-router";
 import {getDateString} from "../../helpers/dateOps.js";
+import {percentage} from "@/shared/helpers/getCompletionPercentage.js";
 
 const router = useRouter()
 defineProps(['workout'])
@@ -16,7 +17,13 @@ defineProps(['workout'])
         :style="{backgroundImage: `url(${workout?.category?.banner})`}"
         class="flex flex-col h-full   bg-center bg-cover  p-8 shadow-cta shadow-lg group relative"
         @click="router.push({name: 'workout-details', params: {workoutId: workout.id}})">
-
+      <div
+          v-if="workout?.movement_links.length >0"
+          :style="{'--value': percentage(workout?.movement_links)}"
+          class="radial-progress bg-secondary/70 text-cta text-xs font-semibold absolute right-2 top-2 "
+          style="--size:2.5rem; --thickness: 2px;">
+        {{ percentage(workout?.movement_links) }}%
+      </div>
     </div>
 
     <div class="flex  items-center justify-between text-lg px-2">
