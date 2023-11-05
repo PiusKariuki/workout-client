@@ -9,13 +9,13 @@
     <p class="text-3xl capitalize">We're just getting warmed up.</p>
 
     <div class="grid grid-cols-4 place-content-between place-items-center items-start w-full">
-      <div class="flex items-center">
+      <router-link :to="{name: 'home'}" class="flex items-center">
         <img
             alt=""
             class="w-8 h-8 lg:w-12 lg:h-12 -rotate-45 cursor-pointer"
             src="/axe.svg">
         <p class="">Boats & Logs</p>
-      </div>
+      </router-link>
 
       <div class="flex flex-col gap-8">
         <p class="italic font-medium">.Talk</p>
